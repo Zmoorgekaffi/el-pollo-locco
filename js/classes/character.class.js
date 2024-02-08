@@ -4,6 +4,8 @@ class Character extends MoveableObject {
     width = 120;
     height = 200;
     world;
+    speed = 2.5;
+    isOtherDirection = false;
 
     run_animation = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -28,6 +30,22 @@ class Character extends MoveableObject {
             }
 
         }, 1000 / 11);
+
+        setInterval(() => {
+
+            if(this.world.keyboard.KEY_D == true) {
+                this.isOtherDirection = false;
+                this.x += this.speed;
+            }
+
+            if(this.world.keyboard.KEY_A == true) {
+                this.isOtherDirection = true
+                this.x -= this.speed;
+            }
+
+            this.world.camera_x = (-this.x) + 100;
+
+        }, 1000 / 60);
     }
 
     jump() {
