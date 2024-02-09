@@ -3,9 +3,21 @@ class Character extends MoveableObject {
     y = 80; //230
     width = 120;
     height = 200;
-    world;
     speed = 4;
     isOtherDirection = false;
+
+    idle_animation = [
+        'img/2_character_pepe/1_idle/idle/I-1.png',
+        'img/2_character_pepe/1_idle/idle/I-2.png',
+        'img/2_character_pepe/1_idle/idle/I-3.png',
+        'img/2_character_pepe/1_idle/idle/I-4.png',
+        'img/2_character_pepe/1_idle/idle/I-5.png',
+        'img/2_character_pepe/1_idle/idle/I-6.png',
+        'img/2_character_pepe/1_idle/idle/I-7.png',
+        'img/2_character_pepe/1_idle/idle/I-8.png',
+        'img/2_character_pepe/1_idle/idle/I-9.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png',
+    ];
 
     run_sound = new Audio('audio/character/run/character_run_cut.mp3');
     run_animation = [
@@ -37,6 +49,10 @@ class Character extends MoveableObject {
 
     animate() {
         setInterval(() => {
+            if(this.isOnGround) { // idle animation
+                this.playAnimation(this.idle_animation);
+            }
+            
             if (this.isAboveGround()) { //jump animation
                 this.playAnimation(this.jump_animation);
             }
@@ -58,7 +74,7 @@ class Character extends MoveableObject {
 
             if (this.world.keyboard.KEY_A == true && this.x > this.world.level.levelStart) { // move Left
                 this.isOtherDirection = true
-                this.x -= this.speed;
+                this.moveLeft();
             }
 
             if (this.world.keyboard.KEY_SPACE == true) {

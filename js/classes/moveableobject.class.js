@@ -5,6 +5,7 @@ class MoveableObject {
     speedY = 0;
     accleration = 1;
     currentImage = 0;
+    world;
 
     imgCache = {};
 
@@ -56,11 +57,7 @@ class MoveableObject {
     }
 
     moveLeft() {
-        setInterval(() => {
-            if (this.x > 0) {
-                this.x -= this.speed;
-            }
-        }, 1000 / 60);
+        this.x -= this.speed;
     }
 
     jump() {

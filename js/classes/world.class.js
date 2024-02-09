@@ -19,6 +19,9 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.enemies.forEach(enemy => {
+            enemy.world = this;
+        });
     }
 
     draw() {
