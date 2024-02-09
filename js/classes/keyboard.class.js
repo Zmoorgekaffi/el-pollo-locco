@@ -13,6 +13,8 @@ class Keyboard {
 
             if(e.key == 'a') {
                 this.KEY_A = true;
+
+                this.KEY_D = false;
             }
 
             if(e.key == 's') {
@@ -21,6 +23,8 @@ class Keyboard {
 
             if(e.key == 'd') {
                 this.KEY_D = true;
+
+                this.KEY_A = false;
             }
 
             if(e.key == ' ') {

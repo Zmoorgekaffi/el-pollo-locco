@@ -4,6 +4,9 @@ class World {
     keyboard;
     camera_x;
     character = new Character();
+    level = level_1;
+    backgroundObjects = this.level.backgroundObjects;
+    enemies = this.level.enemies;
 
     constructor(canvas, keyboard) {
         this.giveCanvasWidthAndHeight(canvas);
@@ -24,9 +27,9 @@ class World {
         //camera
         this.ctx.translate(this.camera_x, 0);
 
-        this.addArrayToMap(level_1.backgroundObjects);
+        this.addArrayToMap(this.backgroundObjects);
         this.addToMap(this.character);
-        this.addArrayToMap(level_1.enemies);
+        this.addArrayToMap(this.enemies);
 
         //camera
         this.ctx.translate(-this.camera_x, 0);
