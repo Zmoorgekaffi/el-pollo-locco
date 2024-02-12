@@ -9,8 +9,15 @@ class MoveableObject {
 
     imgCache = {};
 
-    constructor() {
+    hitbox = {
+        right: 0,
+        left: 0,
+        top: 0,
+        bottom: 0
+    };
 
+    constructor() {
+        
     }
 
     applyGravity() {
@@ -49,6 +56,27 @@ class MoveableObject {
         let i = this.currentImage % array.length;
         this.img = this.imgCache[array[i]];
         this.currentImage++;
+    }
+
+    drawCollisionBoxes(ctx) {
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+
+            //frameborder
+            ctx.strokeStyle = "rgba(0,0,0,0.2)";
+            ctx.beginPath();
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+
+            //collisionbox
+            ctx.strokeStyle = "blue";
+            ctx.beginPath();
+            ctx.rect(this.x + this.hitbox.left, this.y + this.hitbox.top, this.width - this.hitbox.right * 2, this.height - this.hitbox.top);
+            ctx.stroke();
+        }
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     moveRight() {

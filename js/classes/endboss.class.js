@@ -5,6 +5,13 @@ class Endboss extends MoveableObject{
     height = 200;
     speed;
 
+    hitbox = {
+        right: 20,
+        left: 20,
+        top: 40,
+        bottom: 0
+    };
+
     run_animation = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',

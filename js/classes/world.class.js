@@ -25,11 +25,12 @@ class World {
     }
 
     draw() {
-        this.resetCanvas();
+        this.clearCanvas();
 
         //camera
         this.ctx.translate(this.camera_x, 0);
 
+        //add Items to map
         this.addArrayToMap(this.backgroundObjects);
         this.addToMap(this.character);
         this.addArrayToMap(this.enemies);
@@ -51,7 +52,10 @@ class World {
             this.mirrorCtx(obj);
         }
 
-        this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+        obj.draw(this.ctx);
+
+        //draw collsionboxes
+        obj.drawCollisionBoxes(this.ctx);
 
         if (obj.isOtherDirection) {
             this.restoreMirroredCtx(obj);
@@ -64,7 +68,7 @@ class World {
         });
     }
 
-    resetCanvas() {
+    clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

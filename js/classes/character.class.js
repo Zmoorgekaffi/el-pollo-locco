@@ -41,6 +41,13 @@ class Character extends MoveableObject {
         'img/2_character_pepe/3_jump/J-39.png',
     ];
 
+    hitbox = {
+        right: 30,
+        left: 20,
+        top: 80,
+        bottom: 0
+    };
+
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.animate();
