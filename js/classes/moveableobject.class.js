@@ -6,18 +6,27 @@ class MoveableObject {
     accleration = 1;
     currentImage = 0;
     world;
+    life = 100;
+    damage = 0.5;
 
     imgCache = {};
 
-    hitbox = {
+    collisionBox = {
         right: 0,
         left: 0,
         top: 0,
         bottom: 0
     };
 
+    hitbox = {
+        right: 20,
+        left: 20,
+        top: 40,
+        bottom: 0
+    };
+
     constructor() {
-        
+
     }
 
     applyGravity() {
@@ -59,7 +68,7 @@ class MoveableObject {
     }
 
     drawCollisionBoxes(ctx) {
-        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
 
             //frameborder
             ctx.strokeStyle = "rgba(0,0,0,0.2)";
@@ -70,13 +79,37 @@ class MoveableObject {
             //collisionbox
             ctx.strokeStyle = "blue";
             ctx.beginPath();
-            ctx.rect(this.x + this.hitbox.left, this.y + this.hitbox.top, this.width - this.hitbox.right * 2, this.height - this.hitbox.top);
+            ctx.rect(this.x + this.collisionBox.left, this.y + this.collisionBox.top, this.width - this.collisionBox.right * 2, this.height - this.collisionBox.top);
             ctx.stroke();
         }
     }
 
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    isColliding(obj) {
+        if (this.isOtherDirection == false) {
+            return ((this.x + this.width) - this.hitbox.right) >= (obj.x + obj.hitbox.left) && // this.right greater than obj.left
+                (this.x + this.hitbox.left) <= ((obj.x + obj.width) - obj.hitbox.right) && // this.left smaller than obj.right
+                this.y + this.height >= (obj.y + obj.hitbox.top) && // this.bottom greater than obj.top
+                (this.y + this.hitbox.top) <= obj.y + obj.height; // this.top smaller than obj.bottom
+        } else {
+            if (this.isOtherDirection) {
+                return ((this.x + this.width) - this.hitbox.left) >= obj.x && // this.right greater than obj.left
+                    (this.x + this.hitbox.right) <= obj.x + obj.width && // this.left smaller than obj.right
+                    this.y + this.height >= (obj.y + obj.hitbox.top) && // this.bottom greater than obj.top
+                    (this.y + this.hitbox.top) <= obj.y + obj.height; // this.top smaller than obj.bottom
+            }
+        }
+    }
+
+    isHurt(obj) {
+        if (this.life <= 0) {
+            this.life = 0;
+        } else {
+            this.life -= obj.damage;
+        }
     }
 
     moveRight() {

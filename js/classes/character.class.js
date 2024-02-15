@@ -41,9 +41,16 @@ class Character extends MoveableObject {
         'img/2_character_pepe/3_jump/J-39.png',
     ];
 
-    hitbox = {
+    collisionBox = {
         right: 30,
         left: 20,
+        top: 80,
+        bottom: 0
+    };
+
+    hitbox = {
+        right: 38,
+        left: 19,
         top: 80,
         bottom: 0
     };

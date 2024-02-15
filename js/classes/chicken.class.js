@@ -5,6 +5,13 @@ class Chicken extends MoveableObject {
     height = 70;
     speed = 0.5 + Math.random() * 0.5;
 
+    collisionBox = {
+        right: 5,
+        left: 5,
+        top: 10,
+        bottom: 0
+    };
+
     hitbox = {
         right: 5,
         left: 5,
@@ -21,7 +28,6 @@ class Chicken extends MoveableObject {
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.animate();
-        this.moveLeft()
     }
 
     animate() {

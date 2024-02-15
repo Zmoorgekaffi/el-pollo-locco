@@ -3,9 +3,9 @@ class Endboss extends MoveableObject{
     y = 230;
     width = 150;
     height = 200;
-    speed;
+    speed = 5;
 
-    hitbox = {
+    collisionBox = {
         right: 20,
         left: 20,
         top: 40,

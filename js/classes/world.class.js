@@ -15,6 +15,19 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
+        this.checkCollisions();
+    }
+
+    checkCollisions() {
+        setInterval(() => {
+            this.level.enemies.forEach(enemy => {
+                if (this.character.isColliding(enemy)) {
+                    this.character.isHurt(enemy);
+                    console.log('the life of character is', this.character.life)
+                }
+                
+            });
+        }, 1000/10);
     }
 
     setWorld() {
