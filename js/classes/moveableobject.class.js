@@ -118,7 +118,6 @@ class MoveableObject {
 
     wasDamaged() {
         let timepassed = new Date().getTime() - this.lastHit;
-        
         timepassed = timepassed / 1000; //converted to seconds
         return timepassed < 1;
     }
