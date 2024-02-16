@@ -4,18 +4,24 @@ class World {
     keyboard;
     camera_x;
     character = new Character();
+
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
     enemies = this.level.enemies;
 
     constructor(canvas, keyboard) {
-        this.giveCanvasWidthAndHeight(canvas);
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        this.setCanvas(canvas);
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
         this.checkCollisions();
+    }
+
+    setCanvas(canvas) {
+        this.canvas = canvas;
+        canvas.width = 720
+        canvas.height = 480;
+        this.ctx = canvas.getContext('2d');
     }
 
     checkCollisions() {
@@ -51,12 +57,6 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
         this.reDraw();
-    }
-
-
-    giveCanvasWidthAndHeight(canvas) {
-        canvas.width = 720
-        canvas.height = 480;
     }
 
     addToMap(obj) {
