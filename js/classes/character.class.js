@@ -16,7 +16,7 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/idle/I-7.png',
         'img/2_character_pepe/1_idle/idle/I-8.png',
         'img/2_character_pepe/1_idle/idle/I-9.png',
-        'img/2_character_pepe/1_idle/idle/I-10.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
     run_sound = new Audio('audio/character/run/character_run_cut.mp3');
@@ -26,7 +26,7 @@ class Character extends MoveableObject {
         'img/2_character_pepe/2_walk/W-23.png',
         'img/2_character_pepe/2_walk/W-24.png',
         'img/2_character_pepe/2_walk/W-25.png',
-        'img/2_character_pepe/2_walk/W-26.png',
+        'img/2_character_pepe/2_walk/W-26.png'
     ];
 
     jump_animation = [
@@ -38,7 +38,23 @@ class Character extends MoveableObject {
         'img/2_character_pepe/3_jump/J-36.png',
         'img/2_character_pepe/3_jump/J-37.png',
         'img/2_character_pepe/3_jump/J-38.png',
-        'img/2_character_pepe/3_jump/J-39.png',
+        'img/2_character_pepe/3_jump/J-39.png'
+    ];
+
+    dead_animation = [
+        'img/2_character_pepe/5_dead/D-51.png',
+        'img/2_character_pepe/5_dead/D-52.png',
+        'img/2_character_pepe/5_dead/D-53.png',
+        'img/2_character_pepe/5_dead/D-54.png',
+        'img/2_character_pepe/5_dead/D-55.png',
+        'img/2_character_pepe/5_dead/D-56.png',
+        'img/2_character_pepe/5_dead/D-57.png'
+    ];
+
+    hurt_animation = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png'
     ];
 
     collisionBox = {
@@ -63,21 +79,25 @@ class Character extends MoveableObject {
 
     animate() {
         setInterval(() => {
-            if(this.isOnGround) { // idle animation
-                this.playAnimation(this.idle_animation);
-            }
             
-            if (this.isAboveGround()) { //jump animation
-                this.playAnimation(this.jump_animation);
-            }
-
             if (this.world.keyboard.KEY_D && this.isOnGround() || this.world.keyboard.KEY_A && this.isOnGround()) { // run animation
                 this.playAnimation(this.run_animation);
                 this.run_sound.play();
             } else {
                 this.run_sound.pause();
+                this.playAnimation(this.idle_animation); //idle Animation
             }
 
+            if (this.isDead()) { //dead animation
+                this.playAnimation(this.dead_animation);
+
+            } else if (this.wasDamaged()) { //hurt animation
+                this.playAnimation(this.hurt_animation);
+
+            } else if (this.isAboveGround()) { //jump animation
+                this.playAnimation(this.jump_animation);
+
+            }
         }, 1000 / 11);
 
         setInterval(() => {

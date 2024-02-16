@@ -9,6 +9,8 @@ class MoveableObject {
     life = 100;
     damage = 0.5;
 
+    lastHit = 0;
+
     imgCache = {};
 
     collisionBox = {
@@ -104,12 +106,25 @@ class MoveableObject {
         }
     }
 
-    isHurt(obj) {
+    wasHurtBy(obj) {
         if (this.life <= 0) {
             this.life = 0;
+            this.isDead();
         } else {
             this.life -= obj.damage;
+            this.lastHit = new Date().getTime();
         }
+    }
+
+    wasDamaged() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        
+        timepassed = timepassed / 1000; //converted to seconds
+        return timepassed < 1;
+    }
+
+    isDead() {
+        return this.life == 0;
     }
 
     moveRight() {
