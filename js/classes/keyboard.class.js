@@ -4,6 +4,7 @@ class Keyboard {
     KEY_S = false;
     KEY_D = false;
     KEY_SPACE = false;
+    KEY_DOT = false;
 
     constructor() {
         document.addEventListener('keydown', (e) => {
@@ -30,6 +31,10 @@ class Keyboard {
             if(e.key == ' ') {
                 this.KEY_SPACE = true;
             }
+
+            if(e.key == '.') {
+                this.KEY_DOT = true;
+            }
         });
 
         document.addEventListener('keyup', (e) => {
@@ -51,6 +56,10 @@ class Keyboard {
 
             if(e.key == ' ') {
                 this.KEY_SPACE = false;
+            }
+            
+            if(e.key == '.') {
+                this.KEY_DOT = false;
             }
         })
     }

@@ -4,6 +4,9 @@ class World {
     keyboard;
     camera_x;
     character = new Character();
+    lifebar = new Lifebar();
+    coinbar = new Coinbar();
+    salsabar = new Salsabar();
 
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
@@ -29,6 +32,7 @@ class World {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy)) {
                     this.character.wasHurtBy(enemy);
+                    this.lifebar.setPercentage(this.character.life);
                 }
                 
             });
@@ -48,13 +52,18 @@ class World {
         //camera
         this.ctx.translate(this.camera_x, 0);
 
-        //add Items to map
+        //add objects to map
         this.addArrayToMap(this.backgroundObjects);
         this.addToMap(this.character);
         this.addArrayToMap(this.enemies);
 
         //camera
         this.ctx.translate(-this.camera_x, 0);
+
+        //add fixed objects to map
+        this.addToMap(this.lifebar);
+        this.addToMap(this.coinbar);
+        this.addToMap(this.salsabar);
 
         this.reDraw();
     }

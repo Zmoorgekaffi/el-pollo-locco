@@ -1,17 +1,10 @@
-class MoveableObject {
-    x;
-    y;
-    img;
+class MoveableObject extends DrawableObject {
     speedY = 0;
     accleration = 1;
-    currentImage = 0;
     world;
     life = 100;
-    damage = 0.5;
-
+    damage = 1;
     lastHit = 0;
-
-    imgCache = {};
 
     collisionBox = {
         right: 0,
@@ -27,8 +20,12 @@ class MoveableObject {
         bottom: 0
     };
 
-    constructor() {
-
+    playAnimation(array) {
+        this.imgCache = [];
+        this.loadIamgesToCache(array);
+        let i = this.currentImage % array.length;
+        this.img = this.imgCache[array[i]];
+        this.currentImage++;
     }
 
     applyGravity() {
@@ -47,47 +44,6 @@ class MoveableObject {
 
     isOnGround() {
         return this.y == 233;
-    }
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadIamgesToCache(array) {
-        array.forEach(path => {
-            let img = new Image();
-            img.src = path;
-            this.imgCache[path] = img;
-        });
-    }
-
-    playAnimation(array) {
-        this.loadIamgesToCache(array);
-        let i = this.currentImage % array.length;
-        this.img = this.imgCache[array[i]];
-        this.currentImage++;
-    }
-
-    drawCollisionBoxes(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-
-            //frameborder
-            ctx.strokeStyle = "rgba(0,0,0,0.2)";
-            ctx.beginPath();
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-
-            //collisionbox
-            ctx.strokeStyle = "blue";
-            ctx.beginPath();
-            ctx.rect(this.x + this.collisionBox.left, this.y + this.collisionBox.top, this.width - this.collisionBox.right * 2, this.height - this.collisionBox.top);
-            ctx.stroke();
-        }
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     isColliding(obj) {
