@@ -20,6 +20,10 @@ class MoveableObject extends DrawableObject {
         bottom: 0
     };
 
+    constructor() {
+        super();
+    }
+
     playAnimation(array) {
         this.imgCache = [];
         this.loadIamgesToCache(array);

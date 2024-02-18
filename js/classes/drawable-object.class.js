@@ -25,7 +25,7 @@ class DrawableObject {
     }
 
     drawCollisionBoxes(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject) {
 
             //frameborder
             ctx.strokeStyle = "rgba(0,0,0,0.2)";
@@ -36,7 +36,7 @@ class DrawableObject {
             //collisionbox
             ctx.strokeStyle = "blue";
             ctx.beginPath();
-            ctx.rect(this.x + this.collisionBox.left, this.y + this.collisionBox.top, this.width - this.collisionBox.right * 2, this.height - this.collisionBox.top);
+            ctx.rect(this.x + this.collisionBox.left, this.y + this.collisionBox.top, this.width - this.collisionBox.right * 2, (this.height - this.collisionBox.bottom) - this.collisionBox.top);
             ctx.stroke();
         }
     }

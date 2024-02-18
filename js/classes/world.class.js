@@ -7,6 +7,7 @@ class World {
     lifebar = new Lifebar();
     coinbar = new Coinbar();
     salsabar = new Salsabar();
+    bottle = new ThrowableObject(this);
 
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
@@ -64,6 +65,7 @@ class World {
         this.addToMap(this.lifebar);
         this.addToMap(this.coinbar);
         this.addToMap(this.salsabar);
+        this.addToMap(this.bottle);
 
         this.reDraw();
     }

@@ -2,6 +2,16 @@ class ThrowableObject extends MoveableObject {
     
     speedY = 10;
     speed = 10;
+    width = 60;
+    height = 50;
+    img = new Image();
+
+    collisionBox = {
+        right: 20,
+        left: 20,
+        top: 5,
+        bottom: 5
+    };
 
     rotation_animation = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -20,10 +30,13 @@ class ThrowableObject extends MoveableObject {
     ];
     
     
-    constructor() {
+    constructor(world) {
+        super();
+        this.world = world;
         this.x = this.world.character.x;
+        this.y = this.world.character.y;
+        this.loadImage(this.rotation_animation[0]);
         this.applyGravity();
     }
-    
     
 }
