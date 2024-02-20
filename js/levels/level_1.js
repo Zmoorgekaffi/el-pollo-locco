@@ -46,4 +46,8 @@ let enemies = [
     new Endboss()
 ];
 
-const level_1 = new Level(backgroundObjects, enemies, 0, 719*4 - 700);
+let coins = [
+    new ColectableObject(350, 330)
+];
+
+const level_1 = new Level(backgroundObjects, enemies, coins, 0, 719*4 - 700);

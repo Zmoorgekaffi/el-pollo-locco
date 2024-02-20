@@ -28,7 +28,7 @@ class DrawableObject {
     }
 
     drawCollisionBoxes(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof ColectableObject) {
 
             //frameborder
             ctx.strokeStyle = "rgba(0,0,0,0.2)";

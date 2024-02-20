@@ -26,8 +26,6 @@ class MoveableObject extends DrawableObject {
     }
 
     playAnimation(array) {
-        this.imgCache = [];
-        this.loadIamgesToCache(array);
         let i = this.currentImage % array.length;
         this.img = this.imgCache[array[i]];
         this.currentImage++;

@@ -4,22 +4,24 @@ class World {
     keyboard;
     camera_x;
     character = new Character();
+    collected_coins = [];
+
     lifebar = new Lifebar();
     coinbar = new Coinbar();
     salsabar = new Salsabar();
-    bottles = []; //new ThrowableObject(this.character.x, this.character.y)
-    coins = [];
 
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
     enemies = this.level.enemies;
+    bottles = []; //new ThrowableObject(this.character.x, this.character.y)
+    coins = this.level.coins;
 
     constructor(canvas, keyboard) {
         this.setCanvas(canvas);
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollisions(); 
+        this.checkCollisions();
     }
 
     setCanvas(canvas) {
@@ -35,10 +37,20 @@ class World {
                 if (this.character.isColliding(enemy)) {
                     this.character.wasHurtBy(enemy);
                     this.lifebar.setPercentage(this.character.life);
-                }
-                
+                };
             });
-        }, 1000/10);
+            this.level.coins.forEach(coin => {
+                if (this.character.isColliding(coin)) {
+                    this.hasCollect(coin, this.collected_coins, this.coinbar);
+                };
+            });
+        }, 1000 / 10);
+    }
+
+    hasCollect(obj, array, statusbar) {
+        obj.x = undefined;
+        array.push(obj);
+        statusbar.setPercentage(statusbar.percentage += 20);
     }
 
     setWorld() {
@@ -62,6 +74,7 @@ class World {
         this.addArrayToMap(this.backgroundObjects);
         this.addToMap(this.character);
         this.addArrayToMap(this.enemies);
+        this.addArrayToMap(this.coins);
         this.addArrayToMap(this.bottles);
 
         //camera
