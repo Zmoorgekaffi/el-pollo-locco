@@ -37,6 +37,8 @@ class ThrowableObject extends MoveableObject {
         this.x = x + 30;
         this.y = y + 260;
         this.loadImage(this.rotation_animation[0]);
+        this.loadIamgesToCache(this.rotation_animation);
+        this.loadIamgesToCache(this.splash_animation);
         this.animate();
     }
 

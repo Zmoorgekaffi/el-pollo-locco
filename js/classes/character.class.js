@@ -73,6 +73,11 @@ class Character extends MoveableObject {
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+        this.loadIamgesToCache(this.idle_animation);
+        this.loadIamgesToCache(this.run_animation);
+        this.loadIamgesToCache(this.jump_animation);
+        this.loadIamgesToCache(this.dead_animation);
+        this.loadIamgesToCache(this.hurt_animation);
         this.animate();
         this.applyGravity();
     }

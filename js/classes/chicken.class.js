@@ -27,11 +27,11 @@ class Chicken extends MoveableObject {
 
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        this.loadIamgesToCache(this.run_animation);
         this.animate();
     }
 
     animate() {
-        this.loadIamgesToCache(this.run_animation);
         setInterval(() => {
             this.playAnimation(this.run_animation);
         }, 1000 / 11);

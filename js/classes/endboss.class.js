@@ -25,11 +25,11 @@ class Endboss extends MoveableObject{
 
     constructor() {
         super().loadImage(this.run_animation[0]);
+        this.loadIamgesToCache(this.run_animation);
         this.animate();  
     }
 
     animate() {
-        this.loadIamgesToCache(this.run_animation);
         setInterval(() => {
             this.playAnimation(this.run_animation);
         }, 1000/5);
