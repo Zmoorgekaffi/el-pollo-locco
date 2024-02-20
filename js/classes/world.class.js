@@ -7,7 +7,8 @@ class World {
     lifebar = new Lifebar();
     coinbar = new Coinbar();
     salsabar = new Salsabar();
-    bottle = new ThrowableObject(this);
+    bottles = []; //new ThrowableObject(this.character.x, this.character.y)
+    coins = [];
 
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
@@ -18,7 +19,7 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollisions();
+        this.checkCollisions(); 
     }
 
     setCanvas(canvas) {
@@ -45,6 +46,10 @@ class World {
         this.enemies.forEach(enemy => {
             enemy.world = this;
         });
+        this.bottles.forEach(bottle => {
+            bottle.world = this;
+        });
+        this.keyboard.world = this;
     }
 
     draw() {
@@ -57,6 +62,7 @@ class World {
         this.addArrayToMap(this.backgroundObjects);
         this.addToMap(this.character);
         this.addArrayToMap(this.enemies);
+        this.addArrayToMap(this.bottles);
 
         //camera
         this.ctx.translate(-this.camera_x, 0);
@@ -65,7 +71,6 @@ class World {
         this.addToMap(this.lifebar);
         this.addToMap(this.coinbar);
         this.addToMap(this.salsabar);
-        this.addToMap(this.bottle);
 
         this.reDraw();
     }

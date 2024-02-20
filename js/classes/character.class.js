@@ -65,7 +65,7 @@ class Character extends MoveableObject {
     };
 
     hitbox = {
-        right: 38,
+        right: 38,  
         left: 19,
         top: 80,
         bottom: 0
@@ -80,16 +80,18 @@ class Character extends MoveableObject {
     animate() {
         setInterval(() => {
             
-            if (this.world.keyboard.KEY_D && this.isOnGround() || this.world.keyboard.KEY_A && this.isOnGround()) { // run animation
+            if (this.world.keyboard.KEY_D && this.isOnGround() && !this.isDead()|| this.world.keyboard.KEY_A && this.isOnGround() && !this.isDead()) { // run animation
                 this.playAnimation(this.run_animation);
                 this.run_sound.play();
             } else {
                 this.run_sound.pause();
-                this.playAnimation(this.idle_animation); //idle Animation
+                if(!this.isDead()) {
+                    this.playAnimation(this.idle_animation); //idle Animation
+                }
             }
 
             if (this.isDead()) { //dead animation
-                this.playAnimation(this.dead_animation);
+                this.playAnimationWithEnd(this.dead_animation);
 
             } else if (this.wasDamaged()) { //hurt animation
                 this.playAnimation(this.hurt_animation);
@@ -102,16 +104,16 @@ class Character extends MoveableObject {
 
         setInterval(() => {
 
-            if (this.world.keyboard.KEY_D == true && this.x < this.world.level.levelEnd) { //move Right
+            if (this.world.keyboard.KEY_D == true && this.x < this.world.level.levelEnd && !this.isDead()) { //move Right
                 this.moveRight();
             }
 
-            if (this.world.keyboard.KEY_A == true && this.x > this.world.level.levelStart) { // move Left
+            if (this.world.keyboard.KEY_A == true && this.x > this.world.level.levelStart && !this.isDead()) { // move Left
                 this.isOtherDirection = true
                 this.moveLeft();
             }
 
-            if (this.world.keyboard.KEY_SPACE == true) {
+            if (this.world.keyboard.KEY_SPACE == true  && !this.isDead()) { // jump
                 this.jump();
             }
 

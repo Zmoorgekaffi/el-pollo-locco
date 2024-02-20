@@ -6,6 +6,8 @@ class Keyboard {
     KEY_SPACE = false;
     KEY_DOT = false;
 
+    world;
+
     constructor() {
         document.addEventListener('keydown', (e) => {
             if(e.key == 'w') {

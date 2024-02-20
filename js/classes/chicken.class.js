@@ -38,7 +38,7 @@ class Chicken extends MoveableObject {
 
         setInterval(() => {
             if (this.x > level_1.levelStart) {
-                this.moveLeft();
+                //this.moveLeft();
             }
 
         }, 1000 / 60);

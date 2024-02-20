@@ -3,8 +3,9 @@ class MoveableObject extends DrawableObject {
     accleration = 1;
     world;
     life = 100;
-    damage = 1;
+    damage = 2;
     lastHit = 0;
+    animationCounter = 0;
 
     collisionBox = {
         right: 0,
@@ -30,6 +31,17 @@ class MoveableObject extends DrawableObject {
         let i = this.currentImage % array.length;
         this.img = this.imgCache[array[i]];
         this.currentImage++;
+    }
+
+    playAnimationWithEnd(array) {
+        this.imgCache = [];
+        this.loadIamgesToCache(array);
+        if (this.animationCounter <= array.length) {
+            let i = this.currentImage % array.length;
+            this.img = this.imgCache[array[i]];
+            this.currentImage++;
+        } 
+        this.animationCounter++;
     }
 
     applyGravity() {

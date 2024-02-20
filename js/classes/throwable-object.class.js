@@ -1,10 +1,12 @@
 class ThrowableObject extends MoveableObject {
-    
-    speedY = 10;
+
+    speedY = 0;
     speed = 10;
     width = 60;
     height = 50;
+    accleration = 0.3
     img = new Image();
+    Saved_X_coordinates;
 
     collisionBox = {
         right: 20,
@@ -21,22 +23,58 @@ class ThrowableObject extends MoveableObject {
     ];
 
     splash_animation = [
-        'img/1_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        'img/2_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        'img/3_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        'img/4_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        'img/5_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
+        'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
+        'img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
+        'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
+        'img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
+        'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
     ];
-    
-    
-    constructor(world) {
+
+
+    constructor(x, y) {
         super();
-        this.world = world;
-        this.x = this.world.character.x;
-        this.y = this.world.character.y;
+        this.x = x + 30;
+        this.y = y + 260;
         this.loadImage(this.rotation_animation[0]);
-        this.applyGravity();
+        this.animate();
     }
-    
+
+    animate() {
+        setInterval(() => {
+            if (this.isAboveGround() && !this.isOnGround()) {
+                this.playAnimation(this.rotation_animation);
+             } else if(this.isOnGround()) {
+                 this.playAnimationWithEnd(this.splash_animation);
+             }
+
+        }, 1000 / 10);
+    }
+
+    throw() {
+        this.Saved_X_coordinates = this.x;
+        this.speedY = 9;
+        this.applyGravity();
+        setInterval(() => {
+            if (this.x < this.Saved_X_coordinates + 325) {
+                this.x += this.speed;
+            } else {
+                setTimeout(() => {
+                    this.isVisible = false;
+                }, 500);
+            }
+        }, 1000 / 30);
+    }
+
+    isAboveGround() {
+        return this.y <= 360;
+    }
+
+    isOnGround() {
+        if (Math.abs(this.y - (361)) < 10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
