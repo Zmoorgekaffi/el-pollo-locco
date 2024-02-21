@@ -126,4 +126,10 @@ class Character extends MoveableObject {
 
         }, 1000 / 60);
     }
+
+    hasCollect(obj, array, statusbar) {
+        obj.x = undefined;
+        array.push(obj);
+        statusbar.setPercentage(statusbar.percentage += 20);
+    }
 }

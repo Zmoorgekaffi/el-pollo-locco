@@ -47,7 +47,11 @@ let enemies = [
 ];
 
 let coins = [
-    new ColectableObject(350, 330)
+    new Coin(450, 330)
 ];
 
-const level_1 = new Level(backgroundObjects, enemies, coins, 0, 719*4 - 700);
+let bottles = [
+    new collecableBottle(300, 370)
+];
+
+const level_1 = new Level(backgroundObjects, enemies, coins, bottles, 0, 719*4 - 700);

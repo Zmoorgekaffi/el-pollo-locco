@@ -5,6 +5,7 @@ class World {
     camera_x;
     character = new Character();
     collected_coins = [];
+    collected_bottles = [];
 
     lifebar = new Lifebar();
     coinbar = new Coinbar();
@@ -13,7 +14,8 @@ class World {
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
     enemies = this.level.enemies;
-    bottles = []; //new ThrowableObject(this.character.x, this.character.y)
+    throwableBottles = [new ThrowableObject(this.character.x, this.character.y)]; //
+    collectableBottles = this.level.bottles;
     coins = this.level.coins;
 
     constructor(canvas, keyboard) {
@@ -21,7 +23,7 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollisions();
+        this.run();
     }
 
     setCanvas(canvas) {
@@ -31,7 +33,7 @@ class World {
         this.ctx = canvas.getContext('2d');
     }
 
-    checkCollisions() {
+    run() {
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy)) {
@@ -39,18 +41,17 @@ class World {
                     this.lifebar.setPercentage(this.character.life);
                 };
             });
-            this.level.coins.forEach(coin => {
+            this.coins.forEach(coin => {
                 if (this.character.isColliding(coin)) {
-                    this.hasCollect(coin, this.collected_coins, this.coinbar);
+                    this.character.hasCollect(coin, this.collected_coins, this.coinbar);
+                };
+            });
+            this.collectableBottles.forEach(bottle => {
+                if (this.character.isColliding(bottle)) {
+                    this.character.hasCollect(bottle, this.collected_bottles, this.salsabar);
                 };
             });
         }, 1000 / 10);
-    }
-
-    hasCollect(obj, array, statusbar) {
-        obj.x = undefined;
-        array.push(obj);
-        statusbar.setPercentage(statusbar.percentage += 20);
     }
 
     setWorld() {
@@ -58,7 +59,7 @@ class World {
         this.enemies.forEach(enemy => {
             enemy.world = this;
         });
-        this.bottles.forEach(bottle => {
+        this.throwableBottles.forEach(bottle => {
             bottle.world = this;
         });
         this.keyboard.world = this;
@@ -75,7 +76,8 @@ class World {
         this.addToMap(this.character);
         this.addArrayToMap(this.enemies);
         this.addArrayToMap(this.coins);
-        this.addArrayToMap(this.bottles);
+        this.addArrayToMap(this.collectableBottles);     
+        this.addArrayToMap(this.throwableBottles);
 
         //camera
         this.ctx.translate(-this.camera_x, 0);

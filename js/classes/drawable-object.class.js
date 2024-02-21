@@ -6,7 +6,6 @@ class DrawableObject {
     img;
     imgCache = {};
     currentImage = 0;
-    isVisible = true;
 
     loadImage(path) {
         this.img = new Image();
@@ -22,9 +21,7 @@ class DrawableObject {
     }
 
     draw(ctx) {
-        if (this.isVisible) {
-           ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
-        }
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
     }
 
     drawCollisionBoxes(ctx) {

@@ -46,26 +46,29 @@ class ThrowableObject extends MoveableObject {
         setInterval(() => {
             if (this.isAboveGround() && !this.isOnGround()) {
                 this.playAnimation(this.rotation_animation);
-             } else if(this.isOnGround()) {
-                 this.playAnimationWithEnd(this.splash_animation);
-             }
-
+            } else if (this.isOnGround()) {
+                this.playAnimationWithEnd(this.splash_animation);
+            }
         }, 1000 / 10);
     }
 
     throw() {
-        this.Saved_X_coordinates = this.x;
-        this.speedY = 9;
-        this.applyGravity();
-        setInterval(() => {
-            if (this.x < this.Saved_X_coordinates + 325) {
-                this.x += this.speed;
-            } else {
-                setTimeout(() => {
-                    this.isVisible = false;
-                }, 500);
-            }
-        }, 1000 / 30);
+        if (this.world.collected_bottles.length > 0) {
+            this.Saved_X_coordinates = this.x;
+            this.speedY = 9;
+            this.applyGravity();
+            setInterval(() => {
+                if (this.x < this.Saved_X_coordinates + 325) {
+                    this.x += this.speed;
+                } else {
+                    setTimeout(() => {
+                        this.x = undefined;
+                    }, 500);
+                }
+            }, 1000 / 30);
+            this.world.collected_bottles.splice(0, 1);
+            this.world.salsabar.setPercentage(this.world.salsabar.percentage -= 20)
+        }
     }
 
     isAboveGround() {
