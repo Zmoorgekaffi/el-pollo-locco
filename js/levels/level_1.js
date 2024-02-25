@@ -51,7 +51,8 @@ let coins = [
 ];
 
 let bottles = [
-    new collecableBottle(300, 370)
+    new CollecableBottle(300, 370),
+    new CollecableBottle(200, 370)
 ];
 
 const level_1 = new Level(backgroundObjects, enemies, coins, bottles, 0, 719*4 - 700);

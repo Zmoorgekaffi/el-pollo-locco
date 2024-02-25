@@ -2,6 +2,8 @@ class Coin extends ColectableObject {
     width = 100;
     height = 100;
 
+    sound_coin = new Audio('audio/misc/coin.mp3');
+
     coin_animation = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'

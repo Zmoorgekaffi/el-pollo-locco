@@ -4,8 +4,9 @@ class World {
     keyboard;
     camera_x;
     character = new Character();
-    collected_coins = [];
-    collected_bottles = [];
+    collected_coins = 0;
+    collected_bottles = 0;
+    throwableBottles = []; //new ThrowableObject()
 
     lifebar = new Lifebar();
     coinbar = new Coinbar();
@@ -14,7 +15,6 @@ class World {
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
     enemies = this.level.enemies;
-    throwableBottles = [new ThrowableObject(this.character.x, this.character.y)]; //
     collectableBottles = this.level.bottles;
     coins = this.level.coins;
 
@@ -36,22 +36,33 @@ class World {
     run() {
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy)) {
+                if (this.character.isColliding(enemy) && !enemy.isDead()) {
                     this.character.wasHurtBy(enemy);
                     this.lifebar.setPercentage(this.character.life);
                 };
             });
+            this.level.enemies.forEach(enemy => {
+                if (this.character.collidingTop(enemy) && this.character.speedY == -17) {
+                    enemy.life = 0;
+                };
+            });
             this.coins.forEach(coin => {
                 if (this.character.isColliding(coin)) {
-                    this.character.hasCollect(coin, this.collected_coins, this.coinbar);
+                    coin.x = undefined;
+                    coin.sound_coin.play();
+                    this.coinbar.setPercentage(this.coinbar.percentage += 20);
+                    this.collected_coins++;
                 };
             });
             this.collectableBottles.forEach(bottle => {
                 if (this.character.isColliding(bottle)) {
-                    this.character.hasCollect(bottle, this.collected_bottles, this.salsabar);
+                    bottle.x = undefined;
+                    bottle.sound_bottle.play();
+                    this.salsabar.setPercentage(this.salsabar.percentage += 20);
+                    this.collected_bottles++;
                 };
             });
-        }, 1000 / 10);
+        }, 1000 / 60);
     }
 
     setWorld() {

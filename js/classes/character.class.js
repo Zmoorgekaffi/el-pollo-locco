@@ -4,6 +4,7 @@ class Character extends MoveableObject {
     width = 120;
     height = 200;
     speed = 4;
+    throwTimer = true;
     isOtherDirection = false;
 
     idle_animation = [
@@ -82,6 +83,23 @@ class Character extends MoveableObject {
         this.applyGravity();
     }
 
+    throw() {
+        if (this.world.collected_bottles > 0) {
+            this.setThrowtimer();
+            this.world.collected_bottles--;
+            let bottle = new ThrowableObject(this.x, this.y, this.world);
+            this.world.throwableBottles.push(bottle);
+            this.world.salsabar.setPercentage(this.world.salsabar.percentage -= 20)
+        }
+    }
+
+    setThrowtimer() {
+        this.throwTimer = false;
+        setTimeout(() => {
+            this.throwTimer = true;
+        }, 1000);
+    }
+
     animate() {
         setInterval(() => {
             
@@ -122,14 +140,12 @@ class Character extends MoveableObject {
                 this.jump();
             }
 
+            if (this.world.keyboard.KEY_DOT == true && this.throwTimer && !this.isDead()) { // jump
+                this.throw();
+            }
+
             this.world.camera_x = (-this.x) + 100;
 
         }, 1000 / 60);
-    }
-
-    hasCollect(obj, array, statusbar) {
-        obj.x = undefined;
-        array.push(obj);
-        statusbar.setPercentage(statusbar.percentage += 20);
-    }
+    }   
 }

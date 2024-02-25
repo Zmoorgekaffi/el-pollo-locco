@@ -1,5 +1,6 @@
 class ThrowableObject extends MoveableObject {
 
+    world;
     speedY = 0;
     speed = 10;
     width = 60;
@@ -7,6 +8,7 @@ class ThrowableObject extends MoveableObject {
     accleration = 0.3
     img = new Image();
     Saved_X_coordinates;
+    itsTimeToClear = false;
 
     collisionBox = {
         right: 20,
@@ -32,14 +34,31 @@ class ThrowableObject extends MoveableObject {
     ];
 
 
-    constructor(x, y) {
+    constructor(x, y, world) {
         super();
-        this.x = x + 30;
-        this.y = y + 260;
+        this.world = world;
         this.loadImage(this.rotation_animation[0]);
         this.loadIamgesToCache(this.rotation_animation);
         this.loadIamgesToCache(this.splash_animation);
+        this.x = x;
+        this.y = y;
         this.animate();
+        this.prepareTothrow();
+    }
+
+    prepareTothrow() {
+        this.Saved_X_coordinates = this.x;
+        this.speedY = 8;
+        this.applyGravity();
+        let intervall = setInterval(() => {
+            if (this.x < this.Saved_X_coordinates + 325) {
+                this.x += this.speed;
+            } else if (this.isOnGround() && this.itsTimeToClear == true) {
+                this.world.throwableBottles.splice(0, 1);
+                clearInterval(intervall);
+                this.itsTimeToClear == false;
+            }
+        }, 1000 / 30);
     }
 
     animate() {
@@ -50,25 +69,6 @@ class ThrowableObject extends MoveableObject {
                 this.playAnimationWithEnd(this.splash_animation);
             }
         }, 1000 / 10);
-    }
-
-    throw() {
-        if (this.world.collected_bottles.length > 0) {
-            this.Saved_X_coordinates = this.x;
-            this.speedY = 9;
-            this.applyGravity();
-            setInterval(() => {
-                if (this.x < this.Saved_X_coordinates + 325) {
-                    this.x += this.speed;
-                } else {
-                    setTimeout(() => {
-                        this.x = undefined;
-                    }, 500);
-                }
-            }, 1000 / 30);
-            this.world.collected_bottles.splice(0, 1);
-            this.world.salsabar.setPercentage(this.world.salsabar.percentage -= 20)
-        }
     }
 
     isAboveGround() {

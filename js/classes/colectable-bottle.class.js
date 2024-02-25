@@ -1,6 +1,8 @@
-class collecableBottle extends ColectableObject {
+class CollecableBottle extends ColectableObject {
     width = 60;
     height = 60;
+
+    sound_bottle = new Audio('audio/misc/bottle.mp3');
 
     bottle_animation = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',

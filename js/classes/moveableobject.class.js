@@ -3,9 +3,11 @@ class MoveableObject extends DrawableObject {
     accleration = 1;
     world;
     life = 100;
-    damage = 2;
+    damage = 0;
     lastHit = 0;
     animationCounter = 0;
+    wasAboveTimer = 0;
+    wasUnder = true;
 
     collisionBox = {
         right: 0,
@@ -32,14 +34,13 @@ class MoveableObject extends DrawableObject {
     }
 
     playAnimationWithEnd(array) {
-        this.imgCache = [];
-        this.loadIamgesToCache(array);
-        if (this.animationCounter <= array.length) {
-            let i = this.currentImage % array.length;
+        if (this.animationCounter < array.length) {
+            let i = this.animationCounter % array.length;
             this.img = this.imgCache[array[i]];
-            this.currentImage++;
-        } 
-        this.animationCounter++;
+            this.animationCounter++;
+        } else if (this instanceof ThrowableObject) {
+            this.itsTimeToClear = true;
+        }
     }
 
     applyGravity() {
@@ -73,6 +74,22 @@ class MoveableObject extends DrawableObject {
                     this.y + this.height >= (obj.y + obj.hitbox.top) && // this.bottom greater than obj.top
                     (this.y + this.hitbox.top) <= obj.y + obj.height; // this.top smaller than obj.bottom
             }
+        }
+    }
+
+    collidingTop(obj) {
+        const tolerance = 6;
+        
+        if (this.isOtherDirection) { 
+            return ((this.x + this.width) - this.hitbox.left) >= obj.x && // this.right greater than obj.left
+                (this.x + this.hitbox.right) <= obj.x + obj.width && // this.left smaller than obj.right
+                (this.y + this.height) >= (obj.y + obj.hitbox.top - tolerance) && // this.bottom greater than or equal to obj.top - tolerance
+                (this.y + this.height) <= (obj.y + obj.hitbox.top + tolerance); // this.bottom less than or equal to obj.top + tolerance
+        } else if (!this.isOtherDirection) { 
+            return ((this.x + this.width) - this.hitbox.right) >= (obj.x + obj.hitbox.left) && // this.right greater than obj.left
+                (this.x + this.hitbox.left) <= ((obj.x + obj.width) - obj.hitbox.right) && // this.left smaller than obj.right
+                (this.y + this.height) >= (obj.y + obj.hitbox.top - tolerance) && // this.bottom greater than or equal to obj.top - tolerance
+                (this.y + this.height) <= (obj.y + obj.hitbox.top + tolerance); // this.bottom less than or equal to obj.top + tolerance
         }
     }
 
