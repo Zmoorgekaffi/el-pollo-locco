@@ -1,9 +1,10 @@
 class Endboss extends MoveableObject {
-    x = 720;
-    y = 230;
-    width = 150;
-    height = 200;
+    y = 152;
+    width = 200;
+    height = 300;
     speed = 5;
+    damage = 100;
+    isMoving = false;
 
     collisionBox = {
         right: 20,
@@ -30,8 +31,9 @@ class Endboss extends MoveableObject {
 
     ];
 
-    constructor() {
+    constructor(x) {
         super().loadImage(this.run_animation[0]);
+        this.x = x;
         this.loadIamgesToCache(this.run_animation);
         this.loadIamgesToCache(this.dead_animation);
         this.animate();
@@ -43,6 +45,10 @@ class Endboss extends MoveableObject {
                 this.playAnimation(this.run_animation);
             } else if (this.isDead()) { //dead animation
                 this.playAnimationWithEnd(this.dead_animation);
+            }
+
+            if(this.x > level_1.levelStart && this.isMoving) {
+                this.moveLeft();
             }
         }, 1000 / 5);
     }

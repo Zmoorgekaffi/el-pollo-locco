@@ -1,5 +1,4 @@
 class Chicken extends MoveableObject {
-    x = 450 + Math.random() * 200;
     y = 355;
     width = 60;
     height = 70;
@@ -30,8 +29,9 @@ class Chicken extends MoveableObject {
     ];
 
 
-    constructor() {
+    constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        this.x = x + Math.random() * 200;
         this.loadIamgesToCache(this.run_animation);
         this.loadIamgesToCache(this.dead_animation);
         this.animate();
@@ -47,8 +47,8 @@ class Chicken extends MoveableObject {
         }, 1000 / 11);
 
         setInterval(() => {
-            if (this.x > level_1.levelStart) {
-                //this.moveLeft();
+            if (this.x > level_1.levelStart && !this.isDead()) {
+                this.moveLeft();
             }
 
         }, 1000 / 60);

@@ -6,7 +6,7 @@ class World {
     character = new Character();
     collected_coins = 0;
     collected_bottles = 0;
-    throwableBottles = []; //new ThrowableObject()
+    throwableBottles = [];
 
     lifebar = new Lifebar();
     coinbar = new Coinbar();
@@ -35,15 +35,19 @@ class World {
 
     run() {
         setInterval(() => {
-            this.level.enemies.forEach(enemy => {
+            this.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy) && !enemy.isDead()) {
                     this.character.wasHurtBy(enemy);
                     this.lifebar.setPercentage(this.character.life);
                 };
             });
-            this.level.enemies.forEach(enemy => {
+            this.enemies.forEach(enemy => {
                 if (this.character.collidingTop(enemy) && this.character.speedY == -17) {
                     enemy.life = 0;
+                    //this.character.speedY = 10;
+                    setTimeout(() => {
+                        // enemy.x = undefined;
+                    }, 500);
                 };
             });
             this.coins.forEach(coin => {
@@ -62,7 +66,14 @@ class World {
                     this.collected_bottles++;
                 };
             });
+            this.checkIfBossisStartMoving();
         }, 1000 / 60);
+    }
+
+    checkIfBossisStartMoving() {
+        if(this.character.x > 2000) {
+            this.enemies[9].isMoving = true;
+        }
     }
 
     setWorld() {

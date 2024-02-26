@@ -40,10 +40,16 @@ let backgroundObjects = [
 ];
 
 let enemies = [
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Endboss()
+    new Chicken(450),
+    new Chicken(450),
+    new Chicken(450),
+    new Chicken(450*2),
+    new Chicken(450*2),
+    new Chicken(450*2),
+    new Chicken(450*3),
+    new Chicken(450*3),
+    new Chicken(450*3),
+    new Endboss(2176 + 300)
 ];
 
 let coins = [
