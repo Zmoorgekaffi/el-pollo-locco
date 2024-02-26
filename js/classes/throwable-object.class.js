@@ -9,6 +9,7 @@ class ThrowableObject extends MoveableObject {
     img = new Image();
     Saved_X_coordinates;
     itsTimeToClear = false;
+    wasOtherDirection = false;
 
     collisionBox = {
         right: 20,
@@ -37,6 +38,7 @@ class ThrowableObject extends MoveableObject {
     constructor(x, y, world) {
         super();
         this.world = world;
+        this.wasOtherDirection = this.world.character.isOtherDirection;
         this.loadImage(this.rotation_animation[0]);
         this.loadIamgesToCache(this.rotation_animation);
         this.loadIamgesToCache(this.splash_animation);
@@ -51,12 +53,13 @@ class ThrowableObject extends MoveableObject {
         this.speedY = 8;
         this.applyGravity();
         let intervall = setInterval(() => {
-            if (this.x < this.Saved_X_coordinates + 325) {
+            if (!this.wasOtherDirection && this.x < this.Saved_X_coordinates + 325) {
                 this.x += this.speed;
+            } else if(this.wasOtherDirection && this.x > this.Saved_X_coordinates - 325) {
+                this.x -= this.speed;
             } else if (this.isOnGround() && this.itsTimeToClear == true) {
                 this.world.throwableBottles.splice(0, 1);
                 clearInterval(intervall);
-                this.itsTimeToClear == false;
             }
         }, 1000 / 30);
     }

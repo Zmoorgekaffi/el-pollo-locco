@@ -49,16 +49,27 @@ let enemies = [
     new Chicken(450*3),
     new Chicken(450*3),
     new Chicken(450*3),
+    new Chicken(450*4),
+    new Chicken(450*4),
+    new Chicken(450*4),
     new Endboss(2176 + 300)
 ];
 
 let coins = [
-    new Coin(450, 330)
+    new Coin(450, 330),
+    new Coin(450*2, 230),
+    new Coin(450*3, 230),
+    new Coin(450*4, 280),
+    new Coin(450*4 - 150, 320)
 ];
 
 let bottles = [
     new CollecableBottle(300, 370),
-    new CollecableBottle(200, 370)
+    new CollecableBottle(300*2, 370),
+    new CollecableBottle(300*3 -150, 230),
+    new CollecableBottle(300*4 -150, 280),
+    new CollecableBottle(2200, 300),
+
 ];
 
 const level_1 = new Level(backgroundObjects, enemies, coins, bottles, 0, 719*4 - 700);

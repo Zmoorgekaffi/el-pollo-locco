@@ -3,7 +3,7 @@ class MoveableObject extends DrawableObject {
     accleration = 1;
     world;
     life = 100;
-    damage = 0.15;
+    damage = 0.5;
     lastHit = 0;
     animationCounter = 0;
     wasAboveTimer = 0;

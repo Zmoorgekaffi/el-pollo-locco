@@ -44,9 +44,8 @@ class World {
             this.enemies.forEach(enemy => {
                 if (this.character.collidingTop(enemy) && this.character.speedY == -17) {
                     enemy.life = 0;
-                    //this.character.speedY = 10;
                     setTimeout(() => {
-                        // enemy.x = undefined;
+                        enemy.x = undefined;
                     }, 500);
                 };
             });
@@ -71,8 +70,8 @@ class World {
     }
 
     checkIfBossisStartMoving() {
-        if(this.character.x > 2000) {
-            this.enemies[9].isMoving = true;
+        if(this.character.x > 2100) {
+            this.enemies[12].isMoving = true;
         }
     }
 
