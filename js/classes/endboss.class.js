@@ -49,9 +49,9 @@ class Endboss extends MoveableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.isDead() && !this.isMoving) {
+            if (!this.isDead() && !this.isMoving) { //dile animation
                 this.playAnimation(this.idle_animation);
-            } else if(this.x > level_1.levelStart && !this.isDead()) {
+            } else if(this.x > level_1.levelStart && !this.isDead()) { //run animation
                 this.playAnimation(this.run_animation);
             } else if (this.isDead()) { //dead animation
                 this.playAnimationWithEnd(this.dead_animation);
@@ -62,7 +62,10 @@ class Endboss extends MoveableObject {
             if (this.x > level_1.levelStart && !this.isDead() && this.isMoving ) {
                 this.moveLeft();
             }
-
+            
+            if (this.x <= 2100) {
+                this.speed += 0.018;
+            }
         }, 1000 / 60);
     }
 }
