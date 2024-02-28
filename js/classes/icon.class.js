@@ -1,10 +1,10 @@
-class Icon extends DrawableObject {
+class OverlayScreen extends DrawableObject {
 
-    constructor(path, x, y, width, height) {
-        super().loadImage(path, x, y, width, height);
+    constructor(path, x, y) {
+        super().loadImage(path, x, y);
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = 720;
+        this.height = 480;
     }
 }

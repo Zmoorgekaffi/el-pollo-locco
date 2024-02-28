@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Locco</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <script src="./js/classes/drawable-object.class.js"></script>
     <script src="./js/classes/moveableobject.class.js"></script>
@@ -25,17 +28,17 @@
     <script src="./js/classes/keyboard.class.js"></script>
     <script src="./js/classes/level.class.js"></script>
     <script src="./js/classes/endboss.class.js"></script>
-     
-
-   
-   
 
 
     <script src="./js/levels/level_1.js"></script>
     <script src="./js/game.js"></script>
 </head>
-<body onload="init()">
+<body>
     <h1>El Pollo Locco</h1>
-    <canvas id="canvas"></canvas>
+    <div id="canvasframe">
+        <div id="start-screen" onclick="init()"></div>
+        <div id="fullscreen-btn" onclick="getFullscreen()"></div>
+        <canvas id="canvas"></canvas>
+    </div>
 </body>
 </html>

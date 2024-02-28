@@ -3,6 +3,10 @@ class World {
     ctx;
     keyboard;
     camera_x;
+    end_screen = new OverlayScreen('img/9_intro_outro_screens/game_over/oh no you lost!.png', 0, 0);
+    end_screen_boolian_loose = false;
+    end_screen = new OverlayScreen('img/9_intro_outro_screens/game_over/oh no you lost!.png', 0, 0);
+    end_screen_boolian_win = false;
     character = new Character();
     collected_coins = 0;
     collected_bottles = 0;
@@ -72,7 +76,16 @@ class World {
                 };
             });
             this.checkIfBossisStartMoving();
+            this.checkIfGameIsOver();
         }, 1000 / 60);
+    }
+
+    checkIfGameIsOver() {
+        if(this.enemies[12].life <= 0) {
+            this.end_screen_boolian_win = true; // need to change boolian
+        } else if(this.character.life <= 0) {
+            this.end_screen_boolian_loose = true;
+        }
     }
 
     checkIfBossisStartMoving() {
@@ -113,8 +126,16 @@ class World {
         this.addToMap(this.lifebar);
         this.addToMap(this.coinbar);
         this.addToMap(this.salsabar);
+        this.addOverlayScreenToMap();
+
 
         this.reDraw();
+    }
+
+    addOverlayScreenToMap() {
+        if(this.end_screen_boolian_loose) {
+            this.addToMap(this.end_screen);
+        }
     }
 
     addToMap(obj) {
