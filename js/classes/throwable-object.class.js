@@ -18,6 +18,13 @@ class ThrowableObject extends MoveableObject {
         bottom: 5
     };
 
+    hitbox = {
+        right: 20,
+        left: 20,
+        top: 5,
+        bottom: 5
+    };
+
     rotation_animation = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -85,4 +92,21 @@ class ThrowableObject extends MoveableObject {
             return false;
         }
     }
+
+    isColliding(obj) {
+        if (this.wasOtherDirection == false) {
+            return ((this.x + this.width) - this.hitbox.right) >= (obj.x + obj.hitbox.left) && // this.right greater than obj.left
+                (this.x + this.hitbox.left) <= ((obj.x + obj.width) - obj.hitbox.right) && // this.left smaller than obj.right
+                this.y + this.height >= (obj.y + obj.hitbox.top) && // this.bottom greater than obj.top
+                (this.y + this.hitbox.top) <= obj.y + obj.height; // this.top smaller than obj.bottom
+        } else {
+            if (this.wasOtherDirection) {
+                return ((this.x + this.width) - this.hitbox.left) >= obj.x && // this.right greater than obj.left
+                    (this.x + this.hitbox.right) <= obj.x + obj.width && // this.left smaller than obj.right
+                    this.y + this.height >= (obj.y + obj.hitbox.top) && // this.bottom greater than obj.top
+                    (this.y + this.hitbox.top) <= obj.y + obj.height; // this.top smaller than obj.bottom
+            }
+        }
+    }
+
 }

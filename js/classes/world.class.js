@@ -49,6 +49,12 @@ class World {
                     }, 500);
                 };
             });
+            this.throwableBottles.forEach(bottle => {
+                if (bottle.isColliding(this.enemies[12])) {
+                    this.enemies[12].wasHurtBy(bottle);
+                    this.enemies[12].life -= 0.65;
+                };
+            });
             this.coins.forEach(coin => {
                 if (this.character.isColliding(coin)) {
                     coin.x = undefined;
@@ -70,7 +76,7 @@ class World {
     }
 
     checkIfBossisStartMoving() {
-        if(this.character.x > 2100) {
+        if (this.character.x > 2100) {
             this.enemies[12].isMoving = true;
         }
     }
@@ -97,7 +103,7 @@ class World {
         this.addToMap(this.character);
         this.addArrayToMap(this.enemies);
         this.addArrayToMap(this.coins);
-        this.addArrayToMap(this.collectableBottles);     
+        this.addArrayToMap(this.collectableBottles);
         this.addArrayToMap(this.throwableBottles);
 
         //camera
@@ -119,7 +125,7 @@ class World {
         obj.draw(this.ctx);
 
         //draw collsionboxes
-        obj.drawCollisionBoxes(this.ctx);
+        // obj.drawCollisionBoxes(this.ctx);
 
         if (obj.isOtherDirection) {
             this.restoreMirroredCtx(obj);

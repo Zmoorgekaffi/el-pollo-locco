@@ -13,6 +13,13 @@ class Endboss extends MoveableObject {
         bottom: 0
     };
 
+    hitbox = {
+        right: 20,
+        left: 20,
+        top: 40,
+        bottom: 0
+    };
+
     idle_animation = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -38,24 +45,35 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/1_walk/G4.png',
     ];
 
+    hurt_animation = [
+        'img/4_enemie_boss_chicken/4_hurt/G21.png',
+        'img/4_enemie_boss_chicken/4_hurt/G22.png',
+        'img/4_enemie_boss_chicken/4_hurt/G23.png'
+    ];
+
     constructor(x) {
         super().loadImage(this.idle_animation[0]);
         this.x = x;
         this.loadIamgesToCache(this.idle_animation);
         this.loadIamgesToCache(this.dead_animation);
         this.loadIamgesToCache(this.run_animation);
+        this.loadIamgesToCache(this.hurt_animation);
         this.animate();
     }
 
     animate() {
         setInterval(() => {
+
+            if (!this.isDead() && this.wasDamaged()) { //dead animation
+                this.playAnimation(this.hurt_animation);
+            } else
             if (!this.isDead() && !this.isMoving) { //dile animation
                 this.playAnimation(this.idle_animation);
             } else if(this.x > level_1.levelStart && !this.isDead()) { //run animation
                 this.playAnimation(this.run_animation);
             } else if (this.isDead()) { //dead animation
                 this.playAnimationWithEnd(this.dead_animation);
-            } 
+            }
         }, 1000 / 5);
 
         setInterval(() => {
@@ -64,8 +82,17 @@ class Endboss extends MoveableObject {
             }
             
             if (this.x <= 2100) {
-                this.speed += 0.018;
+                this.speed += 0.015;
             }
         }, 1000 / 60);
+    }
+
+    wasHurtBy() {
+        if (this.life <= 0) {
+            this.life = 0;
+            this.isDead();
+        } else {
+            this.lastHit = new Date().getTime();
+        }
     }
 }

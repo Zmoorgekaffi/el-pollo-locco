@@ -110,7 +110,7 @@ class MoveableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.life == 0;
+        return this.life <= 0;
     }
 
     moveRight() {
