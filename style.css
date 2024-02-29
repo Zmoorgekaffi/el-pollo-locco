@@ -11,15 +11,21 @@ body {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
-    background-image: url('img/1_editables/elpollelocco-hintergund.png');
+    background-image: url('img/elpolloloccobackground.jpg');
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     font-family: "Permanent Marker", cursive;
     font-weight: 400;
     font-style: normal;
     font-size: 64px;
+    height: 100vh;
+    width: 100%;
+    overflow-y: hidden;
+}
+
+.d-none {
+    display: none;
 }
 
 h1 {

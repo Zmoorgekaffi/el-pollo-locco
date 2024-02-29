@@ -3,9 +3,9 @@ class World {
     ctx;
     keyboard;
     camera_x;
-    end_screen = new OverlayScreen('img/9_intro_outro_screens/game_over/oh no you lost!.png', 0, 0);
+    end_screen_loose = new OverlayScreen('img/9_intro_outro_screens/game_over/oh no you lost!.png', 0, 0);
     end_screen_boolian_loose = false;
-    end_screen = new OverlayScreen('img/9_intro_outro_screens/game_over/oh no you lost!.png', 0, 0);
+    end_screen_win = new OverlayScreen('img/9_intro_outro_screens/game_over/game over.png', 0, 0);
     end_screen_boolian_win = false;
     character = new Character();
     collected_coins = 0;
@@ -134,7 +134,9 @@ class World {
 
     addOverlayScreenToMap() {
         if(this.end_screen_boolian_loose) {
-            this.addToMap(this.end_screen);
+            this.addToMap(this.end_screen_loose);
+        } else if(this.end_screen_boolian_win) {
+            this.addToMap(this.end_screen_win)
         }
     }
 
@@ -144,10 +146,7 @@ class World {
         }
 
         obj.draw(this.ctx);
-
-        //draw collsionboxes
-        // obj.drawCollisionBoxes(this.ctx);
-
+        
         if (obj.isOtherDirection) {
             this.restoreMirroredCtx(obj);
         }

@@ -72,4 +72,8 @@ let bottles = [
 
 ];
 
-const level_1 = new Level(backgroundObjects, enemies, coins, bottles, 0, 719*4 - 700);
+let level_1;
+function initLevel() {
+    level_1 = new Level(backgroundObjects, enemies, coins, bottles, 0, 719*4 - 700);
+    document.getElementById('fullscreen-btn').classList.remove('d-none');
+}
