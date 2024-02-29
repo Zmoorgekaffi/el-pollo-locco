@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard;
+let intervallIds = [];
 
 function init() {
     canvas = document.getElementById('canvas');

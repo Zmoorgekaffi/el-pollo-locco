@@ -38,7 +38,7 @@ class Chicken extends MoveableObject {
     }
 
     animate() {
-        setInterval(() => {
+        let intervall = setInterval(() => {
             if (!this.isDead()) {
                 this.playAnimation(this.run_animation);
             } else if (this.isDead()) { //dead animation
@@ -46,13 +46,11 @@ class Chicken extends MoveableObject {
             }
         }, 1000 / 11);
 
-        setInterval(() => {
+        let intervall2 = setInterval(() => {
             if (this.x > level_1.levelStart && !this.isDead()) {
                 this.moveLeft();
             }
-
         }, 1000 / 60);
+        intervallIds.push(intervall, intervall2);
     }
-
-
 }

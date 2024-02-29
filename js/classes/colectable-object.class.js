@@ -7,7 +7,7 @@ class ColectableObject extends MoveableObject{
     }
 
     animate(array) {
-        setInterval(() => {
+        let intervall = setInterval(() => {
             this.playAnimation(array);
             if(this.hoverCounter == 1) {
                 this.y += 5;
@@ -17,5 +17,6 @@ class ColectableObject extends MoveableObject{
                 this.hoverCounter--;
             }
         }, 1000 / 3);
+        intervallIds.push(intervall);
     }
 }

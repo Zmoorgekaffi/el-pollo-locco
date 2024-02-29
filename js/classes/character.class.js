@@ -101,7 +101,7 @@ class Character extends MoveableObject {
     }
 
     animate() {
-        setInterval(() => {
+        let intervall = setInterval(() => {
             
             if (this.world.keyboard.KEY_D && this.isOnGround() && !this.isDead()|| this.world.keyboard.KEY_A && this.isOnGround() && !this.isDead()) { // run animation
                 this.playAnimation(this.run_animation);
@@ -125,7 +125,7 @@ class Character extends MoveableObject {
             }
         }, 1000 / 11);
 
-        setInterval(() => {
+        let intervall2 = setInterval(() => {
 
             if (this.world.keyboard.KEY_D == true && this.x < this.world.level.levelEnd && !this.isDead()) { //move Right
                 this.moveRight();
@@ -147,5 +147,6 @@ class Character extends MoveableObject {
             this.world.camera_x = (-this.x) + 100;
 
         }, 1000 / 60);
+        intervallIds.push(intervall, intervall2);
     }   
 }

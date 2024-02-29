@@ -7,6 +7,7 @@ class World {
     end_screen_boolian_loose = false;
     end_screen_win = new OverlayScreen('img/9_intro_outro_screens/game_over/game over.png', 0, 0);
     end_screen_boolian_win = false;
+
     character = new Character();
     collected_coins = 0;
     collected_bottles = 0;
@@ -38,7 +39,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        let intervall = setInterval(() => {
             this.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy) && !enemy.isDead()) {
                     this.character.wasHurtBy(enemy);
@@ -78,13 +79,20 @@ class World {
             this.checkIfBossisStartMoving();
             this.checkIfGameIsOver();
         }, 1000 / 60);
+        intervallIds.push(intervall);
     }
 
     checkIfGameIsOver() {
         if(this.enemies[12].life <= 0) {
-            this.end_screen_boolian_win = true; // need to change boolian
+            this.end_screen_boolian_win = true;
+            setTimeout(() => {
+                this.stopGame();            
+            }, 1000);
         } else if(this.character.life <= 0) {
             this.end_screen_boolian_loose = true;
+            setTimeout(() => {
+                this.stopGame();            
+            }, 1000);
         }
     }
 
@@ -182,4 +190,9 @@ class World {
         this.ctx.restore();
     }
 
+    stopGame() {
+        intervallIds.forEach(ID => {
+            clearInterval(ID);
+        });
+    }
 }

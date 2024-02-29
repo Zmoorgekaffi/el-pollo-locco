@@ -62,8 +62,7 @@ class Endboss extends MoveableObject {
     }
 
     animate() {
-        setInterval(() => {
-
+        let intervall = setInterval(() => {
             if (!this.isDead() && this.wasDamaged()) { //dead animation
                 this.playAnimation(this.hurt_animation);
             } else
@@ -76,7 +75,7 @@ class Endboss extends MoveableObject {
             }
         }, 1000 / 5);
 
-        setInterval(() => {
+        let intervall2 = setInterval(() => {
             if (this.x > level_1.levelStart && !this.isDead() && this.isMoving ) {
                 this.moveLeft();
             }
@@ -85,6 +84,7 @@ class Endboss extends MoveableObject {
                 this.speed += 0.015;
             }
         }, 1000 / 60);
+        intervallIds.push(intervall, intervall2);
     }
 
     wasHurtBy() {
