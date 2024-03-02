@@ -7,25 +7,22 @@
 
 body {
     margin: 0;
-    display: flex;
-    justify-content: flex-start;
     align-items: center;
-    flex-direction: column;
     background-image: url('img/elpolloloccobackground.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    font-family: "Permanent Marker", cursive;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 64px;
     height: 100vh;
     width: 100%;
     overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .d-none {
-    display: none;
+    display: none!important;
 }
 
 h1 {
@@ -33,6 +30,10 @@ h1 {
     text-align: center;
     color: rgb(32, 20, 16);
     text-shadow: 2px 2px 5px white;
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 84px;
 }
 
 canvas {
@@ -44,8 +45,10 @@ canvas {
 }
 
 #canvasframe {
-    height: 720px;
-    width: 1110px;
+    max-height: 480px;
+    max-width: 720px;
+    width: 80%;
+    height: 100%;
     position: relative;
 }
 
@@ -53,9 +56,12 @@ canvas {
     width: 100%;
     height: 100%;
     background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
-    background-size: contain;
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
+    z-index: 9997;
+    position: relative;
 }
 
 #fullscreen-btn {
@@ -69,4 +75,75 @@ canvas {
     background-repeat: no-repeat;
     z-index: 9999;
     cursor: pointer;
+}
+
+#info-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 35px;
+    height: 35px;
+    z-index: 9999;
+    cursor: pointer;
+    border: 3px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white-border {
+    border-color: white !important;
+}
+
+#info-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#info-btn img {
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+}
+
+#info-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998;
+}
+
+#info-container p {
+    color: yellow;
+    font-size: 24px;
+    margin: 16px;
+}
+
+@media (max-width: 1000px) {
+    #canvasframe {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 64px;
+    }
+}
+
+@media (max-height: 480px) {
+    #canvasframe {
+        height: 100vh;
+    }
+
+    h1 {
+        display: none;
+    }
 }

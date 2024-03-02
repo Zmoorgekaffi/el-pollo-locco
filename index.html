@@ -38,6 +38,14 @@
     <div id="canvasframe">
         <div id="start-screen" onclick="init()"></div>
         <div id="fullscreen-btn" class="d-none" onclick="getFullscreen()"></div>
+        <div id="info-btn" onclick="toggleInfo()"><img src="img/1_editables/info-solid.svg" alt=""></div>
+        <div id="info-container" class="d-none" onclick="toggleInfo()">
+            <p>Use 'A' to move left.</p>
+            <p>Use 'B' to move right.</p>
+            <p>Use 'SPACE' to jump.</p>
+            <p>Use ' . ' (dot) to throw a bottle.</p>
+            <p>Pro tipp: use your flasks wisely.</p>
+        </div>
         <canvas id="canvas"></canvas>
     </div>
 </body>
