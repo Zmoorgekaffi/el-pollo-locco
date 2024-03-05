@@ -5,6 +5,7 @@ class Endboss extends MoveableObject {
     speed = 1.5;
     damage = 100;
     isMoving = false;
+    life = 80;
 
     collisionBox = {
         right: 20,
@@ -31,6 +32,7 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
+    sound_dead = new Audio('audio/chicken/dead-sound/dead sound_1.mp3');
     dead_animation = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
@@ -45,6 +47,7 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/1_walk/G4.png',
     ];
 
+    hurt_sound = new Audio('audio/chicken/hurt/endboss hurt sound.mp3');
     hurt_animation = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
@@ -63,7 +66,8 @@ class Endboss extends MoveableObject {
 
     animate() {
         let intervall = setInterval(() => {
-            if (!this.isDead() && this.wasDamaged()) { //dead animation
+            if (!this.isDead() && this.wasDamaged()) { //hurt animation
+                this.playHurtSound();
                 this.playAnimation(this.hurt_animation);
             } else
             if (!this.isDead() && !this.isMoving) { //dile animation
@@ -71,6 +75,7 @@ class Endboss extends MoveableObject {
             } else if(this.x > level_1.levelStart && !this.isDead()) { //run animation
                 this.playAnimation(this.run_animation);
             } else if (this.isDead()) { //dead animation
+                this.sound_dead.play();
                 this.playAnimationWithEnd(this.dead_animation);
             }
         }, 1000 / 5);
@@ -81,7 +86,7 @@ class Endboss extends MoveableObject {
             }
             
             if (this.x <= 2100) {
-                this.speed += 0.015;
+                this.speed += 0.01;
             }
         }, 1000 / 60);
         intervallIds.push(intervall, intervall2);

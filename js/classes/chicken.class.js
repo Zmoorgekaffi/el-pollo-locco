@@ -24,6 +24,7 @@ class Chicken extends MoveableObject {
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
     ];
 
+    sound_dead = new Audio('audio/chicken/dead-sound/dead sound_1.mp3');
     dead_animation = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];

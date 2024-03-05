@@ -2,8 +2,15 @@ let canvas;
 let world;
 let keyboard;
 let intervallIds = [];
+let music = new Audio('audio/backgorund-music/2687_5150-lq.mp3');
+
+function playMusic() {
+    music.play();
+}
 
 function init() {
+    playMusic();
+    music.volume -= 0.9;
     canvas = document.getElementById('canvas');
     keyboard = new Keyboard();
     initLevel();
@@ -37,4 +44,8 @@ function toggleMobileControls() {
     document.getElementById('mobile-controls').classList.toggle('d-none');
     document.getElementById('mobile-control-btn').classList.toggle('white-border');
 }
+
+music.addEventListener('ended', () => {
+    music.play();
+});
 

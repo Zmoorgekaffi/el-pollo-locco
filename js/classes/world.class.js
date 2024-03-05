@@ -49,15 +49,16 @@ class World {
             this.enemies.forEach(enemy => {
                 if (this.character.collidingTop(enemy) && this.character.speedY == -17) {
                     enemy.life = 0;
+                    enemy.sound_dead.play();
                     setTimeout(() => {
-                        enemy.x = undefined;
+                        this.enemies.splice(this.enemies.indexOf(enemy), 1);
                     }, 500);
                 };
             });
             this.throwableBottles.forEach(bottle => {
-                if (bottle.isColliding(this.enemies[12])) {
-                    this.enemies[12].wasHurtBy(bottle);
-                    this.enemies[12].life -= 0.65;
+                if (bottle.isColliding(this.enemies[(this.enemies.length - 1)])) {
+                    this.enemies[(this.enemies.length - 1)].wasHurtBy(bottle);
+                    this.enemies[(this.enemies.length - 1)].life -= 0.65;
                 };
             });
             this.coins.forEach(coin => {
@@ -83,22 +84,22 @@ class World {
     }
 
     checkIfGameIsOver() {
-        if(this.enemies[12].life <= 0) {
+        if (this.enemies[(this.enemies.length - 1)].life <= 0) {
             this.end_screen_boolian_win = true;
             setTimeout(() => {
-                this.stopGame();            
+                this.stopGame();
             }, 1000);
-        } else if(this.character.life <= 0) {
+        } else if (this.character.life <= 0) {
             this.end_screen_boolian_loose = true;
             setTimeout(() => {
-                this.stopGame();            
+                this.stopGame();
             }, 1000);
         }
     }
 
     checkIfBossisStartMoving() {
         if (this.character.x > 2100) {
-            this.enemies[12].isMoving = true;
+            this.enemies[(this.enemies.length - 1)].isMoving = true;
         }
     }
 
@@ -141,9 +142,9 @@ class World {
     }
 
     addOverlayScreenToMap() {
-        if(this.end_screen_boolian_loose) {
+        if (this.end_screen_boolian_loose) {
             this.addToMap(this.end_screen_loose);
-        } else if(this.end_screen_boolian_win) {
+        } else if (this.end_screen_boolian_win) {
             this.addToMap(this.end_screen_win)
         }
     }
@@ -154,7 +155,7 @@ class World {
         }
 
         obj.draw(this.ctx);
-        
+
         if (obj.isOtherDirection) {
             this.restoreMirroredCtx(obj);
         }

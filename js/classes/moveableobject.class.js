@@ -3,11 +3,12 @@ class MoveableObject extends DrawableObject {
     accleration = 1;
     world;
     life = 100;
-    damage = 0;//.5
+    damage = 0.5;
     lastHit = 0;
     animationCounter = 0;
     wasAboveTimer = 0;
     wasUnder = true;
+    hurt_sound_isPlaying = false;
 
     collisionBox = {
         right: 0,
@@ -126,6 +127,15 @@ class MoveableObject extends DrawableObject {
     jump() {
         if (this.isOnGround()) {
             this.speedY = 20;
+        }
+    }
+
+    playHurtSound() {
+        if (!this.hurt_sound_isPlaying) {
+            this.hurt_sound.play();
+            this.hurt_sound_isPlaying = true;
+        } else {
+            this.hurt_sound_isPlaying = false;
         }
     }
 }

@@ -25,6 +25,7 @@ class ThrowableObject extends MoveableObject {
         bottom: 5
     };
 
+    throw_sound = new Audio('audio/misc/throw sound.mp3');
     rotation_animation = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -58,6 +59,7 @@ class ThrowableObject extends MoveableObject {
     prepareTothrow() {
         this.Saved_X_coordinates = this.x;
         this.speedY = 8;
+        this.throw_sound.play();
         this.applyGravity();
         let intervall = setInterval(() => {
             if (!this.wasOtherDirection && this.x < this.Saved_X_coordinates + 325) {
