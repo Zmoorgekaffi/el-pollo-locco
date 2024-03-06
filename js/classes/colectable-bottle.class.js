@@ -22,8 +22,19 @@ class CollecableBottle extends ColectableObject {
         bottom: 25
     };
 
+    /**
+     * this constructor loads the first img of the bottle,
+     * pushs the audiofile into game.js sounds array,
+     * loads all images into object cache, 
+     * sets the x & y - axis starting point,
+     * calls the update function aka. animate
+     * 
+     * @param {number} x sets the x-axis starting point 
+     * @param {number} y sets the y-axis starting point
+     */
     constructor(x, y) {
         super().loadImage(this.bottle_animation[0]);
+        sounds.push(this.sound_bottle);
         this.loadIamgesToCache(this.bottle_animation);
         this.x = x;
         this.y = y;

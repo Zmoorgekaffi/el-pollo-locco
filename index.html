@@ -41,7 +41,13 @@
     <h1>El Pollo Locco</h1>
     <div id="canvasframe">
         <div id="start-screen" onclick="init()"></div>
+        <div id="restart-btn_frame" class="display-center d-none">
+            <div id="restart-btn" onclick="restartGame()">
+                <p>Restrat Game</p>
+            </div>
+        </div>
         <div id="fullscreen-btn" class="d-none" onclick="getFullscreen()"></div>
+        <div id="mute-btn" class="d-none" onclick="toggleMuteSound()"></div>
         <div>
             <div class="prestart-btns-frame display-center">
                 <div id="mobile-control-btn" class="prestart-btn" onclick="toggleMobileControls()"><img

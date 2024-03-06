@@ -11,6 +11,11 @@ class Lifebar extends Statusbar {
         'img/7_statusbars/1_statusbar/2_statusbar_health/orange/100.png',
     ];
 
+    /**
+     * this constructor loads all imgs to objects cache to b e able to update the lifebar,
+     * sets the bar percentage to 100.
+     * 
+     */
     constructor() {
         super();
         this.loadIamgesToCache(this.IMAGES);

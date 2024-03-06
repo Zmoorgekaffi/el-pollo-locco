@@ -18,26 +18,42 @@ class Chicken extends MoveableObject {
         bottom: 0
     };
 
+    audio = {
+        dead_sound: new Audio('audio/chicken/dead-sound/dead sound_1.mp3')
+    };
+
     run_animation = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
     ];
 
-    sound_dead = new Audio('audio/chicken/dead-sound/dead sound_1.mp3');
     dead_animation = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
 
-
+    /**
+     * this function loads the first img of the chicken,
+     * pushes all audiofiles from object into game.js sounds array,
+     * add a random number to the x-axis,
+     * loads all animations into object cache,
+     * calls the update function aka. animate
+     * 
+     * @param {number} x sets the starting x-axis
+     */
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        this.pushAudioArrayToSoundsArray(this.audio);
         this.x = x + Math.random() * 400;
         this.loadIamgesToCache(this.run_animation);
         this.loadIamgesToCache(this.dead_animation);
         this.animate();
     }
 
+    /**
+     * this function updates the chickens animations and movements if conditions are met
+     * 
+     */
     animate() {
         let intervall = setInterval(() => {
             if (!this.isDead()) {

@@ -23,8 +23,20 @@ class Coin extends ColectableObject {
         bottom: 25
     };
 
+    /**
+     * this constructor loads the first img of the coin,
+     * pushes the audio into game.js sounds array,
+     * loads the animation into objects cache,
+     * calls the update function aka. animate,
+     * sets the x-axis starting point,
+     * sets the y-axis starting point 
+     * 
+     * @param {number} x starting point of x-axis 
+     * @param {number} y starting point of y-axis
+     */
     constructor(x,y) {
         super().loadImage(this.coin_animation[0]);
+        sounds.push(this.sound_coin);
         this.loadIamgesToCache(this.coin_animation);
         this.animate(this.coin_animation);
         this.x = x;

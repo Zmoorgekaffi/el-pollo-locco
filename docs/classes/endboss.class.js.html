@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: endboss.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: endboss.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Endboss extends MoveableObject {
+    y = 152;
+    width = 200;
+    height = 300;
+    speed = 1.5;
+    damage = 100;
+    isMoving = false;
+    life = 80;
+
+    collisionBox = {
+        right: 20,
+        left: 20,
+        top: 40,
+        bottom: 0
+    };
+
+    hitbox = {
+        right: 20,
+        left: 20,
+        top: 40,
+        bottom: 0
+    };
+
+    audio = {
+        dead_sound: new Audio('audio/chicken/dead-sound/dead sound_1.mp3'),
+        hurt_sound: new Audio('audio/chicken/hurt/endboss hurt sound.mp3')
+    };
+
+    idle_animation = [
+        'img/4_enemie_boss_chicken/2_alert/G5.png',
+        'img/4_enemie_boss_chicken/2_alert/G6.png',
+        'img/4_enemie_boss_chicken/2_alert/G7.png',
+        'img/4_enemie_boss_chicken/2_alert/G8.png',
+        'img/4_enemie_boss_chicken/2_alert/G9.png',
+        'img/4_enemie_boss_chicken/2_alert/G10.png',
+        'img/4_enemie_boss_chicken/2_alert/G11.png',
+        'img/4_enemie_boss_chicken/2_alert/G12.png'
+    ];
+
+    dead_animation = [
+        'img/4_enemie_boss_chicken/5_dead/G24.png',
+        'img/4_enemie_boss_chicken/5_dead/G25.png',
+        'img/4_enemie_boss_chicken/5_dead/G26.png'
+
+    ];
+
+    run_animation = [
+        'img/4_enemie_boss_chicken/1_walk/G1.png',
+        'img/4_enemie_boss_chicken/1_walk/G2.png',
+        'img/4_enemie_boss_chicken/1_walk/G3.png',
+        'img/4_enemie_boss_chicken/1_walk/G4.png',
+    ];
+
+    hurt_animation = [
+        'img/4_enemie_boss_chicken/4_hurt/G21.png',
+        'img/4_enemie_boss_chicken/4_hurt/G22.png',
+        'img/4_enemie_boss_chicken/4_hurt/G23.png'
+    ];
+
+    /**
+     * this constructor will laod the first img of the endboss,
+     * pushes the audiofiles into game.js sounds array,
+     * sets the starting point x-axis,
+     * loads all imgs to objects cache,
+     * calls the update function aka. animate
+     * 
+     * @param {number} x starting point of the x-axis 
+     */
+    constructor(x) {
+        super().loadImage(this.idle_animation[0]);
+        this.pushAudioArrayToSoundsArray(this.audio);
+        this.x = x;
+        this.loadIamgesToCache(this.idle_animation);
+        this.loadIamgesToCache(this.dead_animation);
+        this.loadIamgesToCache(this.run_animation);
+        this.loadIamgesToCache(this.hurt_animation);
+        this.animate();
+    }
+
+    /**
+     * this function updates the animations and movements of the endboss if conditions are met,
+     * pushes intervalls into Wolrd intervall array to be able to stop the game
+     * 
+     */
+    animate() {
+        let intervall = setInterval(() => {
+            if (!this.isDead() &amp;&amp; this.wasDamaged()) { //hurt animation
+                this.playHurtSound();
+                this.playAnimation(this.hurt_animation);
+            } else
+            if (!this.isDead() &amp;&amp; !this.isMoving) { //dile animation
+                this.playAnimation(this.idle_animation);
+
+            } else if(this.x > level_1.levelStart &amp;&amp; !this.isDead()) { //run animation
+                this.playAnimation(this.run_animation);
+
+            } else if (this.isDead()) { //dead animation
+                this.audio['dead_sound'].play();
+                this.playAnimationWithEnd(this.dead_animation);
+            }
+        }, 1000 / 5);
+
+        let intervall2 = setInterval(() => {
+            if (this.x > level_1.levelStart &amp;&amp; !this.isDead() &amp;&amp; this.isMoving ) {
+                this.moveLeft();
+            }
+            
+            if (this.x &lt;= 2100) {
+                this.speed += 0.01;
+            }
+        }, 1000 / 60);
+        intervallIds.push(intervall, intervall2);
+    }
+
+    /**
+     * this function sets the life to 0 if endboss life is dropped under 0 and calls the function isDead if life is &lt;= 0,
+     * otherwise it will be create a timestamp to check at wich time the endboss was last hurt
+     * 
+     */
+    wasHurtBy() {
+        if (this.life &lt;= 0) {
+            this.life = 0;
+            this.isDead();
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coin.html">Coin</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="CollecableBottle.html">CollecableBottle</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="Lifebar.html">Lifebar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 06 2024 21:51:53 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

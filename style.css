@@ -21,6 +21,10 @@ body {
     flex-direction: column;
 }
 
+#canvas {
+    border-radius: 15px;
+}
+
 .d-none {
     display: none!important;
 }
@@ -62,6 +66,7 @@ canvas {
     cursor: pointer;
     z-index: 9997;
     position: relative;
+    border-radius: 15px;
 }
 
 #fullscreen-btn {
@@ -71,6 +76,19 @@ canvas {
     width: 35px;
     height: 35px;
     background-image: url('img/1_editables/expand-solid.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+#mute-btn {
+    position: absolute;
+    top: 28px;
+    right: 70px;
+    width: 35px;
+    height: 35px;
+    background-image: url('img/1_editables/volume-high-solid.svg');
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 9999;
@@ -96,6 +114,32 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#restart-btn_frame {
+    width: 100%;
+    position: absolute;
+    bottom: 50px;
+    z-index: 11000;
+}
+
+#restart-btn {
+    width: 240px;
+    height: 80px;
+    background-color: rgb(235, 224, 179);
+    border: 6px solid orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+}
+
+#restart-btn:hover {
+    background-color: rgba(235, 224, 179, 0.8);
+    cursor: pointer;
 }
 
 .white-border {

@@ -7,6 +7,12 @@ class Character extends MoveableObject {
     throwTimer = true;
     isOtherDirection = false;
 
+    audio = {
+        run_sound: new Audio('audio/character/run/character_run_cut.mp3'),
+        jump_sound: new Audio('audio/character/jump/667296_5086589-lq.mp3'),
+        hurt_sound: new Audio('audio/character/damage/hurt.mp3')
+    };
+
     idle_animation = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -20,7 +26,7 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
-    run_sound = new Audio('audio/character/run/character_run_cut.mp3');
+    
     run_animation = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -30,7 +36,6 @@ class Character extends MoveableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
-    jump_sound = new Audio('audio/character/jump/667296_5086589-lq.mp3');
     jump_animation = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -53,7 +58,6 @@ class Character extends MoveableObject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
-    hurt_sound = new Audio('audio/character/damage/hurt.mp3');
     hurt_animation = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
@@ -74,18 +78,36 @@ class Character extends MoveableObject {
         bottom: 0
     };
 
+    /**
+     * this constructor loads the first img of the character,
+     * pushes all the character audio ito game.js sounds array,
+     * loads all img path for animations into object cache,
+     * reduces the volume of the jump sound,
+     * calls the function update aka. animate,
+     * and applies gravity
+     * 
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+        this.pushAudioArrayToSoundsArray(this.audio);
         this.loadIamgesToCache(this.idle_animation);
         this.loadIamgesToCache(this.run_animation);
         this.loadIamgesToCache(this.jump_animation);
         this.loadIamgesToCache(this.dead_animation);
         this.loadIamgesToCache(this.hurt_animation);
-        this.jump_sound.volume -= 0.3;
+        this.audio['jump_sound'].volume -= 0.3;
         this.animate();
         this.applyGravity();
     }
 
+    /**
+     * this function checks if character has collected bottles,
+     * sets a timer for the last throw,
+     * subtracts 1 collected bottle,
+     * creates a new throwableobject wich will be thrown immediatly,
+     * updates the salsabar
+     * 
+     */
     throw() {
         if (this.world.collected_bottles > 0) {
             this.setThrowtimer();
@@ -96,6 +118,11 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * this function sets the throwtimer after 1 sec to true,
+     * if throwtimer is false the throwableobject isnt able to throw itsself
+     * 
+     */
     setThrowtimer() {
         this.throwTimer = false;
         setTimeout(() => {
@@ -103,14 +130,21 @@ class Character extends MoveableObject {
         }, 1000);
     }
 
+    /**
+     *this function handles the update of charcters specific animations and movements if specific conditions are met,
+     *  it also sets the worlds camera_x wich is the opposite of the characters x + 100 <-- this is the space
+     *  between the left side of canvas and the character,
+     * and pushs the intervalls into World intervall array wich is used to stop the game.
+     * 
+     */
     animate() {
         let intervall = setInterval(() => {
 
             if (this.world.keyboard.KEY_D && this.isOnGround() && !this.isDead() || this.world.keyboard.KEY_A && this.isOnGround() && !this.isDead()) { // run animation
                 this.playAnimation(this.run_animation);
-                this.run_sound.play();
+                this.audio['run_sound'].play();
             } else {
-                this.run_sound.pause();
+                this.audio['run_sound'].pause();
                 if (!this.isDead()) {
                     this.playAnimation(this.idle_animation); //idle Animation
                 }
@@ -140,7 +174,7 @@ class Character extends MoveableObject {
             }
 
             if (this.world.keyboard.KEY_SPACE == true && this.isOnGround() && !this.isDead()) { // jump
-                this.jump_sound.play();
+                this.audio['jump_sound'].play();
                 this.jump();
             }
 

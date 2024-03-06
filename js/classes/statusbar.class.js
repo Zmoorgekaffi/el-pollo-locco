@@ -14,6 +14,12 @@ class Statusbar extends DrawableObject {
         this.img = this.imgCache[path];
     }
 
+    /**
+     * this function returns the number of a to loaded img to represent how much life the player has lost,
+     * based on a percentage wich will decreases the damage of player has taken.
+     * 
+     * @returns the number of the to loaded img for the lifebar to represent the amount of collected bottle
+     */
     getImagesIndex() {
         if(this.percentage == 100) {
             return 5;

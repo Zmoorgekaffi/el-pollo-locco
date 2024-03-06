@@ -7,11 +7,23 @@ class DrawableObject {
     imgCache = {};
     currentImage = 0;
 
+    /**
+     * this function is mainly be used to have a first loaded img for animated objects.
+     * 
+     * @param {string} path path of the to loaded img 
+     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    /**
+     * this function will create new img objects with the given sources throug the array given as argument,
+     * the imgs will be push into a JSON array namend imgCache,
+     * the name of the img object into this JSON array is the source of the img itself
+     * 
+     * @param {array} array array of to loaded imgs wich are used to animate the specific object
+     */
     loadIamgesToCache(array) {
         array.forEach(path => {
             let img = new Image();
@@ -20,10 +32,21 @@ class DrawableObject {
         });
     }
 
+    /**
+     * this function will draw the object into canvas.ctx
+     * 
+     * @param {ctx} ctx the context of the canvas 
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
     }
 
+    /**
+     * this function will draw a border arround objects wich include classes of:
+     * charachter, chicken, endboss, throwableObject, collectableObject
+     * 
+     * @param {ctx} ctx the context of the canvas 
+     */
     drawCollisionBoxes(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof ColectableObject) {
 

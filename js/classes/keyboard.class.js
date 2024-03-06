@@ -8,6 +8,12 @@ class Keyboard {
 
     world;
 
+    /**
+     * this function adds eventlistener to the document to check if a certain button is pressed or released,
+     * also adds eventlistener to the mobile buttons to check if they are touched or released,
+     * also handles the variables to figure out wich key is pressed and wich function will be called later on in the game
+     * 
+     */
     constructor() {
         document.addEventListener('keydown', (e) => {
             if (e.key == 'w') {
@@ -16,7 +22,6 @@ class Keyboard {
 
             if (e.key == 'a') {
                 this.KEY_A = true;
-
                 this.KEY_D = false;
             }
 
@@ -26,7 +31,6 @@ class Keyboard {
 
             if (e.key == 'd') {
                 this.KEY_D = true;
-
                 this.KEY_A = false;
             }
 

@@ -1,4 +1,12 @@
 class OverlayScreen extends DrawableObject {
+    
+    /**
+     * this function adds a fixed screen object
+     * 
+     * @param {string} path 
+     * @param {number} x 
+     * @param {number} y 
+     */
 
     constructor(path, x, y) {
         super().loadImage(path, x, y);

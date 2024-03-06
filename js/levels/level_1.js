@@ -1,5 +1,10 @@
 let level_1;
 
+/**
+ * this function will generate the level,
+ * and displays the mute and fullscreen button
+ * 
+ */
 function initLevel() {
     level_1 = new Level([
         //map second map
@@ -70,4 +75,5 @@ function initLevel() {
 ], 0, // level start
  719*4 - 700); // level end
     document.getElementById('fullscreen-btn').classList.remove('d-none'); // fullscreen button
+    document.getElementById('mute-btn').classList.remove('d-none'); // mute button
 }
