@@ -6,6 +6,8 @@ class Character extends MoveableObject {
     speed = 4;
     throwTimer = true;
     isOtherDirection = false;
+    isSleeping = false;
+    lastStand = new Date().getTime();
 
     audio = {
         run_sound: new Audio('audio/character/run/character_run_cut.mp3'),
@@ -26,7 +28,7 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
-    
+
     run_animation = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -64,6 +66,19 @@ class Character extends MoveableObject {
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
 
+    sleep_animation = [
+        'img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img/2_character_pepe/1_idle/long_idle/I-20.png',
+    ];
+
     collisionBox = {
         right: 30,
         left: 20,
@@ -95,6 +110,7 @@ class Character extends MoveableObject {
         this.loadIamgesToCache(this.jump_animation);
         this.loadIamgesToCache(this.dead_animation);
         this.loadIamgesToCache(this.hurt_animation);
+        this.loadIamgesToCache(this.sleep_animation);
         this.audio['jump_sound'].volume -= 0.3;
         this.animate();
         this.applyGravity();
@@ -139,52 +155,101 @@ class Character extends MoveableObject {
      */
     animate() {
         let intervall = setInterval(() => {
-
-            if (this.world.keyboard.KEY_D && this.isOnGround() && !this.isDead() || this.world.keyboard.KEY_A && this.isOnGround() && !this.isDead()) { // run animation
-                this.playAnimation(this.run_animation);
-                this.audio['run_sound'].play();
-            } else {
-                this.audio['run_sound'].pause();
-                if (!this.isDead()) {
-                    this.playAnimation(this.idle_animation); //idle Animation
-                }
-            }
-
-            if (this.isDead()) { //dead animation
-                this.playAnimationWithEnd(this.dead_animation);
-
-            } else if (this.wasDamaged()) { //hurt animation
-                this.playHurtSound();
-                this.playAnimation(this.hurt_animation);
-
-            } else if (this.isAboveGround()) { //jump animation
-                this.playAnimation(this.jump_animation);
-            }
+            this.isSleepingNow();
+            this.animations();
         }, 1000 / 11);
 
         let intervall2 = setInterval(() => {
-
-            if (this.world.keyboard.KEY_D == true && this.x < this.world.level.levelEnd && !this.isDead()) { //move Right
-                this.moveRight();
-            }
-
-            if (this.world.keyboard.KEY_A == true && this.x > this.world.level.levelStart && !this.isDead()) { // move Left
-                this.isOtherDirection = true
-                this.moveLeft();
-            }
-
-            if (this.world.keyboard.KEY_SPACE == true && this.isOnGround() && !this.isDead()) { // jump
-                this.audio['jump_sound'].play();
-                this.jump();
-            }
-
-            if (this.world.keyboard.KEY_DOT == true && this.throwTimer && !this.isDead()) { // jump
-                this.throw();
-            }
-
-            this.world.camera_x = (-this.x) + 100;
-
+            this.keybindings();
         }, 1000 / 60);
+
         intervallIds.push(intervall, intervall2);
+    }
+
+    /**
+     * this function adds the keybindings
+     * 
+     */
+    keybindings() {
+        if (this.world.keyboard.KEY_D == true && this.x < this.world.level.levelEnd && !this.isDead()) { //move Right
+            this.moveRight();
+        }
+        if (this.world.keyboard.KEY_A == true && this.x > this.world.level.levelStart && !this.isDead()) { // move Left
+            this.isOtherDirection = true
+            this.moveLeft();
+        }
+        if (this.world.keyboard.KEY_SPACE == true && this.isOnGround() && !this.isDead()) { // jump
+            this.audio['jump_sound'].play();
+            this.jump();
+        }
+        if (this.world.keyboard.KEY_DOT == true && this.throwTimer && !this.isDead()) { // throw
+            this.throw();
+        }
+        this.world.camera_x = (-this.x) + 100;
+    }
+
+    /**
+     * this function adds the animations
+     * 
+     */
+    animations() {
+        if (this.world.keyboard.KEY_D && this.isOnGround() && !this.isDead() || this.world.keyboard.KEY_A && this.isOnGround() && !this.isDead()) { // run animation
+            this.playAnimation(this.run_animation);
+            this.audio['run_sound'].play();
+        } else {
+            this.audio['run_sound'].pause();
+            if (!this.isDead() && !this.isSleeping) {
+                this.playAnimation(this.idle_animation); //idle animation   
+            } else if (!this.isDead() && this.isSleeping) {
+                this.playAnimation(this.sleep_animation); //sleep animation
+            }
+        }
+
+        if (this.isDead()) { //dead animation
+            this.playAnimationWithEnd(this.dead_animation);
+
+        } else if (this.wasDamaged()) { //hurt animation
+            this.playHurtSound();
+            this.playAnimation(this.hurt_animation);
+        } else if (this.isAboveGround()) { //jump animation
+            this.playAnimationWithEnd(this.jump_animation);
+        } else if (this.isOnGround) {
+            this.animationCounter = 0;
+        }
+    }
+
+    /**
+     * this function creates a timestamp wich will refreshes if character is dooing nothing,
+     * it is used to determine when character is going to sleepmode
+     * 
+     */
+    isStanding() {
+        if (!this.world.keyboard.KEY_A && !this.world.keyboard.KEY_D && !this.world.keyboard.KEY_SPACE && !this.world.keyboard.KEY_DOT) {
+            this.lastStand = new Date().getTime();
+        }
+    }
+
+    /**
+     * this function checks how much time is passed since character is dooing nothing and
+     * it will return true if passed time is greater than 2 seconds.
+     * 
+     * @returns boolian
+     */
+    isFallIntoSleep() {
+        let timepassed = new Date().getTime() - this.lastStand;
+        timepassed = timepassed / 1000;
+        return timepassed > 3;
+    }
+
+    /**
+     * this function will set the character into sleepmode
+     * 
+     */
+    isSleepingNow() {
+        if (this.isFallIntoSleep()) {
+            this.isSleeping = true;
+        } else {
+            this.isSleeping = false;
+        }
     }
 }

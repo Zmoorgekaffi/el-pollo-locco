@@ -2,10 +2,9 @@ class Endboss extends MoveableObject {
     y = 152;
     width = 200;
     height = 300;
-    speed = 1.5;
+    speed = 1.8;
     damage = 100;
     isMoving = false;
-    life = 80;
 
     collisionBox = {
         right: 20,
@@ -84,32 +83,48 @@ class Endboss extends MoveableObject {
      */
     animate() {
         let intervall = setInterval(() => {
-            if (!this.isDead() && this.wasDamaged()) { //hurt animation
-                this.playHurtSound();
-                this.playAnimation(this.hurt_animation);
-            } else
-            if (!this.isDead() && !this.isMoving) { //dile animation
-                this.playAnimation(this.idle_animation);
-
-            } else if(this.x > level_1.levelStart && !this.isDead()) { //run animation
-                this.playAnimation(this.run_animation);
-
-            } else if (this.isDead()) { //dead animation
-                this.audio['dead_sound'].play();
-                this.playAnimationWithEnd(this.dead_animation);
-            }
+            this.animations();
         }, 1000 / 5);
 
         let intervall2 = setInterval(() => {
-            if (this.x > level_1.levelStart && !this.isDead() && this.isMoving ) {
-                this.moveLeft();
-            }
-            
-            if (this.x <= 2100) {
-                this.speed += 0.01;
-            }
+            this.movementConditions();
         }, 1000 / 60);
         intervallIds.push(intervall, intervall2);
+    }
+
+    /**
+     * this function adds the movement conditions
+     * 
+     */
+    movementConditions() {
+        if (this.x > level_1.levelStart && !this.isDead() && this.isMoving ) {
+            this.moveLeft();
+        }
+        
+        if (this.x <= 2100) {
+            this.speed += 0.012;
+        }
+    }
+
+    /**
+     * this function adds the animations
+     * 
+     */
+    animations() {
+        if (!this.isDead() && this.wasDamaged()) { //hurt animation
+            this.playHurtSound();
+            this.playAnimation(this.hurt_animation);
+        } else
+        if (!this.isDead() && !this.isMoving) { //dile animation
+            this.playAnimation(this.idle_animation);
+
+        } else if(this.x > level_1.levelStart && !this.isDead()) { //run animation
+            this.playAnimation(this.run_animation);
+
+        } else if (this.isDead()) { //dead animation
+            this.audio['dead_sound'].play();
+            this.playAnimationWithEnd(this.dead_animation);
+        }
     }
 
     /**

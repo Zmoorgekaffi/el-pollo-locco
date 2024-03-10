@@ -166,7 +166,7 @@ class MoveableObject extends DrawableObject {
      */
     wasDamaged() {
         let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000; //converted to seconds
+        timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 

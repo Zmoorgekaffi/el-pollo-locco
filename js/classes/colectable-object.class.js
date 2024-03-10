@@ -1,5 +1,9 @@
 class ColectableObject extends MoveableObject{
-    hoverCounter = 1; // controls the y coordinate to get an hover effekt
+    /**
+     * this variable controls the y-axis to get a hover effekt
+     * 
+     */
+    hoverCounter = 1; 
     
     constructor() {
         super();

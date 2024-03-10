@@ -3,6 +3,7 @@ class World {
     ctx;
     keyboard;
     camera_x;
+    showEndBossLifebar = false;
 
     end_screen_loose = new OverlayScreen('img/9_intro_outro_screens/game_over/oh no you lost!.png', 0, 0);
     end_screen_boolian_loose = false;
@@ -17,6 +18,7 @@ class World {
     lifebar = new Lifebar();
     coinbar = new Coinbar();
     salsabar = new Salsabar();
+    endbossbar = new EndbossLifebar();
 
     level = level_1;
     backgroundObjects = this.level.backgroundObjects;
@@ -76,6 +78,11 @@ class World {
                 this.runCollidingEnemysToDeath(enemy);
             });
             this.throwableBottles.forEach(bottle => {
+                this.enemies.forEach(enemy => {
+                    this.runBottlesCollidingChickensToDeath(bottle, enemy);
+                });
+            });
+            this.throwableBottles.forEach(bottle => {
                 this.runThrowableBottles(bottle);
             });
             this.coins.forEach(coin => {
@@ -88,6 +95,24 @@ class World {
             this.checkIfGameIsOver();
         }, 1000 / 60);
         intervallIds.push(intervall);
+    }
+
+    /**
+     * this function checks if a bottle is colliding with an enemy,
+     * if this is true the enemy's life will be set to 0 and will spliced out after 0.5s
+     * 
+     * @param {object} bottle 
+     * @param {object} enemy 
+     */
+    runBottlesCollidingChickensToDeath(bottle, enemy) {
+        if (bottle.isColliding(enemy) && enemy != this.enemies[(this.enemies.length - 1)]) {
+            enemy.life = 0;
+            setTimeout(() => {
+                if (this.enemies.indexOf(enemy) !== -1) {
+                    this.enemies.splice(this.enemies.indexOf(enemy), 1);
+                }
+            }, 500);
+        }
     }
 
     /**
@@ -117,17 +142,22 @@ class World {
             }, 500);
         };
     }
-    
+
     /**
      * this function checks if a throwAbleObject "bottle" is colliding with the endboss,
      * if this is true the endboss will be hurt and gets damage
      * @param {object} bottle throwableObject
      */
     runThrowableBottles(bottle) {
-        if (bottle.isColliding(this.enemies[(this.enemies.length - 1)])) {
-            this.enemies[(this.enemies.length - 1)].wasHurtBy(bottle);
-            this.enemies[(this.enemies.length - 1)].life -= 0.65;
+        const endboss = this.enemies.find(enemy => enemy instanceof Endboss);
+        if (bottle.isColliding(endboss)) {
+            endboss.wasHurtBy(bottle);
+            endboss.life -= 1;
         };
+        if (endboss) {
+            this.endbossbar.setPercentage(endboss.life);
+        }
+
     }
 
     /**
@@ -193,6 +223,7 @@ class World {
     checkIfBossisStartMoving() {
         if (this.character.x > 2100) {
             this.enemies[(this.enemies.length - 1)].isMoving = true;
+            this.showEndBossLifebar = true;
         }
     }
 
@@ -242,6 +273,9 @@ class World {
         this.addToMap(this.lifebar);
         this.addToMap(this.coinbar);
         this.addToMap(this.salsabar);
+        if (this.showEndBossLifebar) {
+            this.addToMap(this.endbossbar);
+        }
         this.addOverlayScreenToMap();
 
 

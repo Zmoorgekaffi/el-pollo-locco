@@ -50,6 +50,7 @@ class Keyboard {
 
             if (e.key == 'a') {
                 this.KEY_A = false;
+                this.world.character.isStanding();
             }
 
             if (e.key == 's') {
@@ -58,14 +59,17 @@ class Keyboard {
 
             if (e.key == 'd') {
                 this.KEY_D = false;
+                this.world.character.isStanding();
             }
 
             if (e.key == ' ') {
                 this.KEY_SPACE = false;
+                this.world.character.isStanding();
             }
 
             if (e.key == '.') {
                 this.KEY_DOT = false;
+                this.world.character.isStanding();
             }
         })
 
@@ -78,6 +82,7 @@ class Keyboard {
         document.getElementById('left').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.KEY_A = false;
+            this.world.character.isStanding();
         })
 
         document.getElementById('right').addEventListener('touchstart', (e) => {
@@ -89,6 +94,7 @@ class Keyboard {
         document.getElementById('right').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.KEY_D = false;
+            this.world.character.isStanding();
         })
 
         document.getElementById('jump').addEventListener('touchstart', (e) => {
@@ -99,6 +105,7 @@ class Keyboard {
         document.getElementById('jump').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.KEY_SPACE = false;
+            this.world.character.isStanding();
         })
 
         document.getElementById('throw').addEventListener('touchstart', (e) => {
@@ -109,6 +116,7 @@ class Keyboard {
         document.getElementById('throw').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.KEY_DOT = false;
+            this.world.character.isStanding();
         })
     }
 }

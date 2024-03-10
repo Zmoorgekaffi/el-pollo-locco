@@ -29,6 +29,11 @@ class Cloud extends MoveableObject {
         intervallIds.push(intervall);
     }
 
+    /**
+     * This function moves the cloud to the left side,
+     * if the x-axis hits the number -720 the x-axis will be set to 720 * 4 to generate a infinity loop
+     * 
+     */
     moveLeft() {
         if(Math.abs(this.x - (-720)) < 1) {
             this.x = 720 * 4;
